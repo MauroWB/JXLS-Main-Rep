@@ -1,24 +1,9 @@
 package com.smeup.excelfromxml;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
-
-import javax.xml.crypto.dsig.XMLObject;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import Smeup.smeui.*;
-
-import Smeup.smeui.uiutilities.*;
 import Smeup.smeui.uidatastructure.uigridxml.*;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
