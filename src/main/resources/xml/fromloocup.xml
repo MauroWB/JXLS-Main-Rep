@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
- 
+<UiSmeup Testo="WETEST_EXB WEB : Prototipi EXB - "> <Service DSep="," Funzione="F(EXB;B£SER_46;WRK.SCP) 1(MB;SCP_SET;WETEST_EXB) 2(;;MAT_013) INPUT()" IdFun="0612143911858" NumSes="506902" Servizio="B£SER_46" TSep="." Titolo1="" Titolo2="WEB : Prototipi EXB"/>
   <Griglia>
     <Colonna Cod="STR001" IO="B" Lun="3" Ogg="NR" Txt="NR"/>
     <Colonna Cod="STR002" IO="B" Lun="3;1" Ogg="NR" Txt="NR"/>
@@ -34,4 +34,4 @@
       <UserSetups Disabled="Yes"/>
     </Program>
   </Setup>
-
+</UiSmeup>
