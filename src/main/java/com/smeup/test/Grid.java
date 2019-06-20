@@ -6,8 +6,9 @@ import java.util.List;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 
 public class Grid {
-	private List cell = new ArrayList();
-	private List row = new ArrayList<List>();
+	private List<String> cell = new ArrayList<String>();
+	private List<List<String>> row = new ArrayList<List<String>>();
+	@SuppressWarnings("unused")
 	private UIGridXmlObject u = null;
 
 	public Grid(UIGridXmlObject u) {
@@ -15,12 +16,24 @@ public class Grid {
 		this.fill();
 	}
 	
+	String[][] s  = {
+			{
+				"Col1","Col2","Col3"
+			},
+			{
+				"Volvo", "G", "A"
+			},
+			{
+				"12", "<", "3"
+			}
+	};
+	
 	public void fill() {
-		for(int i=0; i<u.getRowsCount(); i++) {
-			System.out.println("Leggo la riga n. "+i);
-			for(int j=0; j<u.getColumnsCount(); j++) {
-				cell.add(u.getValueForCell(i, j));
-				System.out.print(cell.get(j)+" , ");
+		for(int i=0; i<3; i++) {
+			System.out.println("\nLeggo la riga n. "+i);
+			for(int j=0; j<3; j++) {
+				cell.add(s[i][j]);
+				System.out.print(cell.get(j)+" | ");
 			}
 			row.add(cell);
 			cell.clear();

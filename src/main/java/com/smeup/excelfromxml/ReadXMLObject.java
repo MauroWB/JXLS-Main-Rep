@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import Smeup.smeui.uidatastructure.uigridxml.*;
+import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -63,11 +64,10 @@ public class ReadXMLObject {
 	
 	public static void main(String[] args)
 			throws GridOperationException, DocumentException, SAXException, IOException, ParserConfigurationException {
-
-		Document d = parse();
-		// d =
-		// UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/fromloocup.xml");
-
+		//Document d = parse();
+		Document d = UIXmlUtilities.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml");
+		
+		System.out.println(d.getRootElement().selectNodes("//Riga").size());
 		UIGridXmlObject u = new UIGridXmlObject(d);
 		System.out.println("Documento letto");
 		readEverything(u);

@@ -11,8 +11,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/SmeUPDev"/>
-	<classpathentry kind="lib" path="D:/Stage/Libs/Loocup.jar"/>
-	<classpathentry kind="lib" path="D:/Stage/Libs/jxls-poi-1.2.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SmeupSources"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

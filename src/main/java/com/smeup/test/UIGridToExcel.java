@@ -1,14 +1,13 @@
 package com.smeup.test;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import org.jxls.transform.Transformer;
+import java.util.ArrayList;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.io.SAXReader;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.slf4j.Logger;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.smeup.excelfromxml.ReadXMLObject;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
+import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*
  * Usare la classe Grid per stampare i contenuti di
@@ -27,24 +27,35 @@ public class UIGridToExcel {
 	
 	static Logger logger = LoggerFactory.getLogger(ReadXMLObject.class);
 	
-	public static Document parse() throws DocumentException {
-		SAXReader reader = new SAXReader();
-		Document document = reader.read(new File("src/main/resources/xml/example.xml"));
-		return document;
+	//Sposta i contenuti di "u" in una lista
+	public static ArrayList<ArrayList<String>> listify(UIGridXmlObject u) {
+		ArrayList<ArrayList<String>> master = new ArrayList<ArrayList<String>>();
+		for(int i=0; i<u.getRowsCount(); i++) {
+			ArrayList<String> sublist = new ArrayList<String>();
+			for(int j=0; j<u.getColumnsCount(); j++) {
+				sublist.add(u.getValueForCell(i, j));
+			}
+			master.add(sublist);
+		}
+		return master;
 	}
 	
 	public static void main(String[] args) throws DocumentException, IOException {
-		Document d = parse();
+		System.out.println("Inizio...");
+		Document d = UIXmlUtilities.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml");
 
 		UIGridXmlObject u = new UIGridXmlObject(d);
 		System.out.println("Documento letto");
-		Grid g = new Grid(u);
+		ArrayList<ArrayList<String>> master = new ArrayList<ArrayList<String>>();
+		master = listify(u);
 		
 		FileInputStream is = new FileInputStream("src/main/resources/excel/grid_template.xlsx");
 		OutputStream os = new FileOutputStream("src/main/resources/excel/grid_output.xlsx");
 		Context context = new Context();
-		context.putVar("grid", g);
+		context.putVar("master", master);
+		System.out.println("Elaboro template...");
 		JxlsHelper.getInstance().processTemplate(is, os, context);
+		System.out.println("Fine.");
 	}
 
 }
