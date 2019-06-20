@@ -1,4 +1,4 @@
-package com.smeup.test;
+package com.smeup.excelfromxml;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import org.dom4j.Document;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
+
+import com.smeup.test.SimpleGrid;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
@@ -27,6 +29,7 @@ public class UIGridXmlObjectToExcel {
 		context.putVar("uiGrid", uiGrid);
 		context.putVar("grid", grid);
 		System.out.println("Elaboro template...");
+		
 		JxlsHelper.getInstance().processTemplate(is, os, context);
 		System.out.println("Fine.");
 	}

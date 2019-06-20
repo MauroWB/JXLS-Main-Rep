@@ -1,4 +1,4 @@
-package com.smeup.test;
+package com.smeup.excelfromxml;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,8 +12,6 @@ import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.smeup.excelfromxml.ReadXMLObject;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
