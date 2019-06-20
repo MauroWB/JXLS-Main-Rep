@@ -11,6 +11,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/SmeupSources"/>
+	<classpathentry kind="lib" path="D:/Java/Libs/Loocup.jar" sourcepath="/SmeupSources"/>
+	<classpathentry kind="lib" path="D:/Java/Libs/SmeupDevSVN/SmeupLibs/jna-4.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/Java/Libs/SmeupDevSVN/SmeupLibs/jna-platform-4.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/Java/Libs/SmeupDevSVN/SmeupLibs/jaxen.jar"/>
+	<classpathentry kind="lib" path="D:/Java/Libs/SmeupDevSVN/SmeupLibs/sfc.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

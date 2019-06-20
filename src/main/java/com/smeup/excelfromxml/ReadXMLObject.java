@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 public class ReadXMLObject {
-
 	public static Document parse() throws DocumentException {
 		SAXReader reader = new SAXReader();
 		Document document = reader.read(new File("src/main/resources/xml/example.xml"));
