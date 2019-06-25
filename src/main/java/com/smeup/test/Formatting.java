@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+
 import org.dom4j.Document;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
@@ -12,7 +14,7 @@ import org.jxls.util.JxlsHelper;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
-public class UIToExcelFilter {
+public class Formatting {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Inizio...");
@@ -20,27 +22,22 @@ public class UIToExcelFilter {
 				.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml");
 		UIGridXmlObject uiGrid = new UIGridXmlObject(d);
 		System.out.println("Documento letto");
-		SimpleGrid gridC = new SimpleGrid(uiGrid);
+		//SimpleGridObject gridC = new SimpleGridObject(uiGrid);
 
 		System.out.println("Stampo la grid inalterata...");
-		gridC.printGrid();
-
-		// FrameFilter f = new FrameFilter("Filter");
-		String filter = "Oggetto";
-		System.out.println("\nOra stampo la nuova grid filtrata, senza i Txt " + filter);
-		SimpleGrid fGrid = new SimpleGrid(uiGrid, filter);
-		fGrid.printGrid();
+		//gridC.printGrid();
 
 		// Elaborazione template
 		System.out.println("Procedo all'elaborazione del foglio Excel...");
-		InputStream in = new FileInputStream("src/main/resources/excel/filter_template.xlsx");
-		OutputStream out = new FileOutputStream("src/main/resources/excel/filter_output.xlsx");
+		InputStream in = new FileInputStream("src/main/resources/excel/formatting_template.xlsx");
+		OutputStream out = new FileOutputStream("src/main/resources/excel/formatting_output.xlsx");
 		Context context = new Context();
-		context.putVar("grid", gridC);
-		context.putVar("fGrid", fGrid);
+		context.putVar("headers", Arrays.asList(uiGrid.getColumnValues(0)));
 		JxlsHelper.getInstance().processTemplate(in, out, context);
 
 		System.out.println("Fine.");
+		in.close();
+		out.close();
 	}
 
 }
