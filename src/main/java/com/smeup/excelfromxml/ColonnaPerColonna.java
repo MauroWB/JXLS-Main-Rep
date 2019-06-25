@@ -1,6 +1,5 @@
 package com.smeup.excelfromxml;
 
-import java.awt.Dialog.ModalExclusionType;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.poi.ss.formula.functions.Count;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
