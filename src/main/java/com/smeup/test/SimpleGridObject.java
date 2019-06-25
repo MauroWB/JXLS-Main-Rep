@@ -6,6 +6,7 @@ import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 public class SimpleGridObject {
 	private ArrayList<ArrayList<Object>> table = new ArrayList<ArrayList<Object>>();
 	private UIGridXmlObject u;
+	private String name;
 
 	public SimpleGridObject(UIGridXmlObject u) {
 		this.u = u;
@@ -78,6 +79,14 @@ public class SimpleGridObject {
 			System.out.println();
 		}
 
+	}
+	
+	public void setName(String name) {
+		this.name=name;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public UIGridXmlObject getU () {
