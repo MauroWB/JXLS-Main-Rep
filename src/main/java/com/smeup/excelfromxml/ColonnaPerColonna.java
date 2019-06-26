@@ -28,8 +28,12 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 public class ColonnaPerColonna {
 
+	/*
+	 * Mette nel context la grid
+	 * e ciascuna colonna di cui
+	 * è composta
+	 */
 	public static void fillContext(Context context, SimpleGridObject s) {
-		// Mette in context le n colonne contenenti i dati
 		for (int i = 0; i < s.getU().getColumnsCount(); i++) {
 			List<Object> obj = new ArrayList<>();
 			obj = Arrays.asList(s.getU().getFormattedColumnValues(s.getU().getColumnByIndex(i).getCod()));
@@ -45,6 +49,9 @@ public class ColonnaPerColonna {
 		}
 		System.out.println("Context riempito");
 		context.putVar(s.getName(), s.getTable());
+		context.putVar("uxo_"+s.getName(), s.getU());
+		//Devo per forza mettere la lista di colonne come un Array, in quanto dentro jxls non posso convertirlo
+		context.putVar(s.getName()+"_columns", Arrays.asList(s.getU().getColumns()));
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -56,15 +63,18 @@ public class ColonnaPerColonna {
 		SimpleGridObject s1 = new SimpleGridObject(
 				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml")));
 		s1.setName("s1");
+		SimpleGridObject s2 = new SimpleGridObject(
+				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml")));
+		s2.setName("s2");
 		
 		// Elaborazione template
 		System.out.println("Procedo all'elaborazione del foglio Excel...");
 		InputStream in = new FileInputStream("src/main/resources/excel/cpc_template.xlsx");
 		OutputStream out = new FileOutputStream("src/main/resources/excel/cpc_output.xlsx");
 		Context context = new Context();
-
 		fillContext(context, s);
 		fillContext(context, s1);
+		fillContext(context, s2);
 		
 		JxlsHelper.getInstance().processTemplate(in, out, context);
 
