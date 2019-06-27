@@ -22,7 +22,7 @@ public class ReadPOI {
 		Iterator<Row> iRow = sheet.iterator();
 		while (iRow.hasNext()) {
 			Row nextRow = iRow.next();
-			Iterator<org.apache.poi.ss.usermodel.Cell> iCell = nextRow.cellIterator();
+			Iterator<Cell> iCell = nextRow.cellIterator();
 			while (iCell.hasNext()) {
 				Cell cell = iCell.next();
 				System.out.print(cell.getAddress() + ": ");
@@ -42,6 +42,8 @@ public class ReadPOI {
 				default:
 					break;
 				}
+				
+				//Se chiamo il metodo toString(), getAuthor(), getString() crasha
 				System.out.println("Comment: "+cell.getCellComment());
 			}
 		}
