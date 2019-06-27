@@ -18,7 +18,7 @@ public class AutoColWidth {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Inizio elaborazione...");
 		InputStream in = new FileInputStream("src/main/resources/excel/cpcpoi_output.xlsx");
-		OutputStream out = new FileOutputStream("src/main/resources/excel/cpcpoi1_output.xlsx");
+		OutputStream out = new FileOutputStream("src/main/resources/excel/cpcpoiautotest_output.xlsx");
 		Workbook workbook = new XSSFWorkbook(in);
 		Sheet sheet = workbook.getSheetAt(0);
 		Iterator<Row> iRow = sheet.rowIterator();
