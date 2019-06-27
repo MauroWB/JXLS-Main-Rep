@@ -31,7 +31,6 @@ public class DirInputToExcel {
 
 	public static void fillContext(Context context, File dir) {
 		int cont = 1;
-
 		for (File f : dir.listFiles()) {
 			SimpleGridObject s = new SimpleGridObject(new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f)));
 			s.setName("s" + cont);
@@ -51,15 +50,17 @@ public class DirInputToExcel {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Inizio...");
 		File dir = new File("src/main/resources/xml/xmltest");
-		InputStream in = new FileInputStream("src/main/resources/excel/dir_template.xlsx");
-		OutputStream out = new FileOutputStream("src/main/resources/excel/dir_output.xlsx");
-		Context context = new Context();
-		fillContext(context, dir);
-		JxlsHelper.getInstance().processTemplate(in, out, context);
-		System.out.println(context.getVar("s1_col3"));
-		in.close();
-		out.close();
-		out.flush();
+		if (dir.isDirectory()) {
+			InputStream in = new FileInputStream("src/main/resources/excel/dir_template.xlsx");
+			OutputStream out = new FileOutputStream("src/main/resources/excel/dir_output.xlsx");
+			Context context = new Context();
+			fillContext(context, dir);
+			JxlsHelper.getInstance().processTemplate(in, out, context);
+			in.close();
+			out.close();
+			out.flush();
+		} else
+			System.out.println("Il percorso indicato non è una directory.");
 		System.out.println("Fine.");
 	}
 
