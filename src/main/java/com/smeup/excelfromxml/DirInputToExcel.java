@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
@@ -26,8 +31,24 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
  * file, lo aggiunge al context e successivamente ne aggiunge
  * le singole colonne
  * 
+ * Aggiunta funzionalità di auto lunghezza delle colonne
+ * 
  */
 public class DirInputToExcel {
+
+	// TODO colonne auto-width
+	public static void autoWidth(Context context, InputStream in) throws IOException {
+		Workbook wb = new XSSFWorkbook(in);
+		OutputStream out = new FileOutputStream("src/main/resources/excel/dir_output.xlsx");
+		for (Sheet s : wb)
+			for (Row r : s)
+				for (Cell c : r)
+					s.autoSizeColumn(c.getColumnIndex());
+		wb.write(out);
+		in.close();
+		out.close();
+		wb.close();
+	}
 
 	public static void fillContext(Context context, File dir) {
 		// contatore per dare un nome a ciascuna variabile tipo "s1"
@@ -59,6 +80,8 @@ public class DirInputToExcel {
 			JxlsHelper.getInstance().processTemplate(in, out, context);
 			in.close();
 			out.close();
+			InputStream is = new FileInputStream("src/main/resources/excel/dir_output.xlsx");
+			autoWidth(context, is);
 		} else
 			System.out.println("Il percorso indicato non è una directory.");
 		System.out.println("Fine.");
