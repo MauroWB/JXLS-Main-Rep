@@ -39,7 +39,8 @@ public class UIToExcelFilter {
 		context.putVar("grid", gridC);
 		context.putVar("fGrid", fGrid);
 		JxlsHelper.getInstance().processTemplate(in, out, context);
-
+		in.close();
+		out.close();
 		System.out.println("Fine.");
 	}
 

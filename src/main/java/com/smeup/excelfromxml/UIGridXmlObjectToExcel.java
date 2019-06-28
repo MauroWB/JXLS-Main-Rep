@@ -32,6 +32,8 @@ public class UIGridXmlObjectToExcel {
 		System.out.println("Elaboro template...");
 		JxlsHelper.getInstance().processTemplate(is, os, context);
 		System.out.println("Fine.");
+		is.close();
+		os.close();
 	}
 
 }

@@ -39,9 +39,7 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 public class ColonnaPerColonnaPOI {
 
-	/*
-	 * Mette nel context la grid e ciascuna colonna di cui è composta
-	 */
+	// Mette nel context la grid e ciascuna colonna di cui è composta
 	public static void fillContext(Context context, SimpleGridObject s) {
 		for (int i = 0; i < s.getU().getColumnsCount(); i++) {
 			List<Object> obj = new ArrayList<>();
@@ -89,7 +87,6 @@ public class ColonnaPerColonnaPOI {
 		workbook.write(wout);
 		workbook.close();
 		wout.close();
-		wout.flush();
 		System.out.println("Fine elaborazione colonne.");
 	}
 
@@ -121,7 +118,6 @@ public class ColonnaPerColonnaPOI {
 
 		in.close();
 		out.close();
-		out.flush();
 
 		autoColumnWidth();
 		// Chiusura stream

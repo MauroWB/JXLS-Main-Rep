@@ -36,6 +36,8 @@ public class NoGrid {
 		Context context = new Context();
 		context.putVar("uiG", master);
 		JxlsHelper.getInstance().processTemplate(in, out, context);
+		in.close();
+		out.close();
 		System.out.println("Fine.");
 	}
 

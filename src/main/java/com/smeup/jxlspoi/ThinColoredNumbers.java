@@ -41,7 +41,6 @@ public class ThinColoredNumbers {
 		wb.close();
 		in.close();
 		out.close();
-		out.flush();
 		System.out.println("Fine.");
 	}
 

@@ -51,7 +51,6 @@ public class ReadPOI {
 		workbook.close();
 		in.close();
 		out.close();
-		out.flush();
 		System.out.println("Fine.");
 	}
 

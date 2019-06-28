@@ -21,15 +21,16 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
 /*
  * Printa n input su Excel
  *
- * Scorre tutti i file della directory, genera un
- * nuovo oggetto s (un UIGridXMLObject praticamente),
- * lo aggiunge al context e successivamente ne aggiunge
+ * Scorre tutti i file della directory, genera un nuovo 
+ * oggetto s (un UIGridXMLObject praticamente) per ogni 
+ * file, lo aggiunge al context e successivamente ne aggiunge
  * le singole colonne
  * 
  */
 public class DirInputToExcel {
 
 	public static void fillContext(Context context, File dir) {
+		// contatore per dare un nome a ciascuna variabile tipo "s1"
 		int cont = 1;
 		for (File f : dir.listFiles()) {
 			SimpleGridObject s = new SimpleGridObject(new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f)));
@@ -58,7 +59,6 @@ public class DirInputToExcel {
 			JxlsHelper.getInstance().processTemplate(in, out, context);
 			in.close();
 			out.close();
-			out.flush();
 		} else
 			System.out.println("Il percorso indicato non è una directory.");
 		System.out.println("Fine.");
