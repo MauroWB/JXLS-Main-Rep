@@ -1,4 +1,4 @@
-package com.smeup.excelfromxml;
+package com.smeup.jxlspoi;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +11,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -36,14 +40,39 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
  */
 public class DirInputToExcel {
 
-	// TODO colonne auto-width
 	public static void autoWidth(Context context, InputStream in) throws IOException {
 		Workbook wb = new XSSFWorkbook(in);
 		OutputStream out = new FileOutputStream("src/main/resources/excel/dir_output.xlsx");
+
+		Font ok = wb.createFont();
+		ok.setColor(IndexedColors.GREEN.index);
+		Font url = wb.createFont();
+		url.setColor(IndexedColors.BLUE.index);
+
 		for (Sheet s : wb)
 			for (Row r : s)
-				for (Cell c : r)
+				for (Cell c : r) {
 					s.autoSizeColumn(c.getColumnIndex());
+					if (c.getCellType() == CellType.STRING) {
+						if (c.getStringCellValue().equals("C")) {
+							CellStyle style = wb.createCellStyle();
+							style.cloneStyleFrom(c.getCellStyle());
+							style.setFont(ok);
+							c.setCellStyle(style);
+						}
+						/*
+						 * In Excel gli URL vengono già messi in blu, tuttavia in questo metodo la cosa
+						 * è fatta per puro esercizio
+						 */
+						if (c.getCellType() == CellType.STRING && c.getStringCellValue().startsWith("http")) {
+							CellStyle style = wb.createCellStyle();
+							style.cloneStyleFrom(c.getCellStyle());
+							style.setFont(url);
+							c.setCellStyle(style);
+							
+						}
+					}
+				}
 		wb.write(out);
 		in.close();
 		out.close();
@@ -62,6 +91,8 @@ public class DirInputToExcel {
 				List<Object> obj = new ArrayList<>();
 				obj = Arrays.asList(s.getU().getFormattedColumnValues(s.getU().getColumnByIndex(i).getCod()));
 				context.putVar(s.getName() + "_col" + (i + 1), obj);
+				// mette nel context un array con tutte le colonne
+				context.putVar(s.getName() + "_cols", Arrays.asList(s.getU().getColumns()));
 			}
 			context.putVar(s.getName(), s.getTable());
 			cont++;
