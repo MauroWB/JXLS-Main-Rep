@@ -96,7 +96,7 @@ public class DirInputToExcel {
 			}
 			context.putVar(s.getName(), s.getTable());
 			cont++;
-			s.printGrid();
+			s.printGrid(); 
 		}
 	}
 
