@@ -57,6 +57,13 @@ public class ColonnaPerColonna {
 	public static void main(String[] args) throws IOException {
 
 		// Creazione tabella
+		
+		/*
+		 * Semplificato:
+		 * Document d = UIXmlUtilities.buildDocumentFromXmlFile("path");
+		 * UIGridXmlObject u = new UIGridXmlObject(d);
+		 * SimpleGridObject s = new SimpleGridObject(u);
+		 */
 		SimpleGridObject s = new SimpleGridObject(
 				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml")));
 		s.setName("s");

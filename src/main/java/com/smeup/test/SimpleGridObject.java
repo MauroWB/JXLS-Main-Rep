@@ -43,10 +43,8 @@ public class SimpleGridObject {
 		for (int i = 0; i < u.getColumnsCount(); i++) {
 			ArrayList<Object> row = new ArrayList<Object>();
 			for (int j = 0; j < u.getRowsCount(); j++) {
-				row.add(u.getFormattedValueForCell(j, u.getColumnByIndex(i).getCod())); // non si può usare
-																						// GetColumnValues perché
-																						// ritorna un array non
-																						// iterable
+				row.add(u.getFormattedValueForCell(j, u.getColumnByIndex(i).getCod()));
+				//Non si può usare getColumnValues perché ritorna un array non iterabile
 			}
 			table.add(row);
 		}
