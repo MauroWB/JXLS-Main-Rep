@@ -37,12 +37,6 @@ public class ColonnaPerColonna {
 		for (int i = 0; i < s.getU().getColumnsCount(); i++) {
 			List<Object> obj = new ArrayList<>();
 			obj = Arrays.asList(s.getU().getFormattedColumnValues(s.getU().getColumnByIndex(i).getCod()));
-			/*
-			 * switch(s.getU().getColumnByIndex(i).getTxt()) { case "Txt":
-			 * context.putVar("txt" + (i + 1), obj); break; case "Percentuale":
-			 * context.putVar("per" + (i + 1), obj); break; case "NR": context.putVar("num"
-			 * + (i + 1), obj); break; default: context.putVar("col" + (i + 1), obj); }
-			 */
 			System.out.println("Aggiungo la colonna numero " + (i + 1) + " della grid "+s.getName()+"...");
 			context.putVar(s.getName()+"_col" + (i + 1), obj);
 			//qualcosa tipo "s_col1", "s1_col1"
