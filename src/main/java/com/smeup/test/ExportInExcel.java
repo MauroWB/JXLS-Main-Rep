@@ -27,13 +27,13 @@ import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
-
 /*
- * Prende un file Xml e lo exporta su Excel automaticamente,
+ * Prende un file Xml e lo esporta su Excel automaticamente,
  * senza che venga creato alcun file template
  */
 public class ExportInExcel {
 
+	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws IOException {
 		File dir = new File("src/main/resources/xml/export/");
 		OutputStream out = new FileOutputStream("src/main/resources/excel/export/export_input.xlsx");
@@ -46,6 +46,7 @@ public class ExportInExcel {
 		Workbook wb = new XSSFWorkbook();
 		CreationHelper factory = wb.getCreationHelper();
 		Sheet sheet = wb.createSheet("Template");
+		Drawing drawing = sheet.createDrawingPatriarch();
 		sheet.createRow(0);
 		sheet.createRow(2);
 		Row r = sheet.getRow(0);
@@ -75,50 +76,49 @@ public class ExportInExcel {
 		for (int i = 0; i < master.get(0).getColumnsCount(); i++) {
 			r1.createCell(i);
 			Cell m = r1.getCell(i);
-			System.out.println("M è all'indirizzo "+m.getAddress());
+			System.out.println("M è all'indirizzo " + m.getAddress());
 			m.setCellValue("${u1_col" + (i + 1) + "}");
 
 			ClientAnchor anchor = factory.createClientAnchor();
-			anchor.setCol1(m.getColumnIndex() + 1); // la box del commento parte qui...
-			anchor.setCol2(m.getColumnIndex() + 3); // ...e finisce qui
-			anchor.setRow1(m.getRowIndex() + 1); // inizia una riga sotto la cella...
-			anchor.setRow2(m.getRowIndex() + 5); // ...e 4 righe sopra
+			anchor.setCol1(m.getColumnIndex() + 1);
+			anchor.setCol2(m.getColumnIndex() + 3);
+			anchor.setRow1(m.getRowIndex() + 1);
+			anchor.setRow2(m.getRowIndex() + 5);
 
-			@SuppressWarnings("rawtypes")
-			Drawing drawing = sheet.createDrawingPatriarch();
 			Comment comment = drawing.createCellComment(anchor);
-			// testo e autore
 			comment.setString(factory.createRichTextString("jx:each(lastCell='" + m.getAddress() + "' items='u1_col"
 					+ (i + 1) + "' var='u1_col" + (i + 1) + "' direction='DOWN')"));
 			comment.setAuthor("Me");
 
 			m.setCellComment(comment);
 			System.out.println("Commento applicato.");
-			if (i == master.get(0).getColumnsCount()-1)
+			if (i == master.get(0).getColumnsCount() - 1)
 				last = m.getAddress();
 		}
-		//Definizione area
+		// Definizione area
 		Cell ori = sheet.getRow(0).getCell(0);
 		ClientAnchor anchor = factory.createClientAnchor();
 		anchor.setCol1(ori.getColumnIndex() + 1); // la box del commento parte qui...
 		anchor.setCol2(ori.getColumnIndex() + 3); // ...e finisce qui
 		anchor.setRow1(ori.getRowIndex() + 1); // inizia una riga sotto la cella...
 		anchor.setRow2(ori.getRowIndex() + 5); // ...e 4 righe sopra
-		@SuppressWarnings("rawtypes")
-		Drawing drawing = sheet.createDrawingPatriarch();
 		Comment comment = drawing.createCellComment(anchor);
-		comment.setString(factory.createRichTextString("jx:area(lastCell='"+last+"')"));
+		comment.setString(factory.createRichTextString("jx:area(lastCell='" + last + "')"));
 		ori.setCellComment(comment);
-		
+
 		wb.write(os);
 		wb.close();
 		in.close();
 		os.close();
+
+		// Elaborazione JXLS
+		System.out.println("Inizio elaborazione jxls...");
 		InputStream in1 = new FileInputStream("src/main/resources/excel/export/export_temp.xlsx");
 		OutputStream out1 = new FileOutputStream("src/main/resources/excel/export/export_output.xlsx");
 		JxlsHelper.getInstance().processTemplate(in1, out1, context);
 		in1.close();
 		out1.close();
+		System.out.println("Fine elaborazione.");
 	}
 
 }
