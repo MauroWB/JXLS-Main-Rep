@@ -1,24 +1,20 @@
 package com.smeup.excelfromxml;
 
-import java.io.File;
 import java.io.IOException;
+
 import javax.xml.parsers.ParserConfigurationException;
-import Smeup.smeui.uidatastructure.uigridxml.*;
-import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import Smeup.smeui.uidatastructure.uigridxml.GridOperationException;
+import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
+import Smeup.smeui.uiutilities.UIXmlUtilities;
+
 public class ReadXMLObject {
-	public static Document parse() throws DocumentException {
-		SAXReader reader = new SAXReader();
-		Document document = reader.read(new File("src/main/resources/xml/example.xml"));
-		return document;
-	}
 
 	public static void readColumnsAtRoW(int row, UIGridXmlObject u) {
 		System.out.println("Riga: " + row);
@@ -63,7 +59,6 @@ public class ReadXMLObject {
 	
 	public static void main(String[] args)
 			throws GridOperationException, DocumentException, SAXException, IOException, ParserConfigurationException {
-		//Document d = parse();
 		Document d = UIXmlUtilities.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml");
 		
 		System.out.println(d.getRootElement().selectNodes("//Riga").size());

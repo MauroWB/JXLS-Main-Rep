@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+<UiSmeup Testo="  - "> <Service DSep="," Funzione="F(EXB;LOA13_SE;ESE.SQL) 1(;;) 2(;;) P(TPZ() NRW(30) CHD() HML() SNM() LVL() SRP() T01()) INPUT(SELECT * FROM X1TASK0F)" IdFun="0626120519327" NumSes="705920" Servizio="LOA13_SE" TSep="." Titolo1="" Titolo2=""/>
+  <Cover Img="[SFO.001]" Logo="[LGO.001]" T01="" T02="" T03="" T04="SELECT * FROM X1TASK0F">
+    <Righe>
+      <Riga Fld="Data|26/06/2019"/>
+      <Riga Fld="Utente|WU3_01"/>
+      <Riga Fld="Ambiente|Gest Mask 22/11"/>
+      <Riga Fld="Oggetto|"/>
+    </Righe>
+  </Cover>
+  <Griglia>
+    <Colonna Cod="X1NREC" Fill="K1" IO="B" Lun="10" Txt="Nr.|Record"/>
+    <Colonna Cod="X1TIPR" IO="B" Lun="3" Txt="Tipo|progetto"/>
+    <Colonna Cod="X1DSTI" IO="B" Lun="35" Txt="Descrizione|progetto"/>
+    <Colonna Cod="X1USAS" IO="B" Lun="10" Txt="Utente|assegnatario"/>
+    <Colonna Cod="X1DSUS" IO="B" Lun="35" Txt="Descrizione|utente"/>
+    <Colonna Cod="X1STAT" IO="B" Lun="1" Txt="Stato"/>
+    <Colonna Cod="X1DSST" IO="B" Lun="35" Txt="Descrizione|stato"/>
+    <Colonna Cod="X1PRIO" IO="B" Lun="2" Txt="Priorità"/>
+    <Colonna Cod="X1DSPR" IO="B" Lun="35" Txt="Descrizione|priorità"/>
+    <Colonna Cod="X1DTAS" IO="B" Lun="8;0" Ogg="NR" Txt="Data|assegnazione"/>
+    <Colonna Cod="X1DESC" IO="B" Lun="512" Txt="Descrizione|task"/>
+    <Colonna Cod="X1USIN" IO="B" Lun="10" Txt="Utente|inserimento"/>
+    <Colonna Cod="X1DTIN" IO="B" Lun="8;0" Ogg="NR" Txt="Data|inserimento"/>
+    <Colonna Cod="X1URL" IO="B" Lun="1024" Txt="Url"/>
+    <Colonna Cod="$_RRN" IO="H" Lun="15;0" Ogg="IDX1TASK0F" Txt="RRN"/>
+  </Griglia>
+  <Righe>
+    <Riga Fld="0000000072|LO|Loocup|SANCOS||C||B||20160204|Configuratore : aiutare Federico sulla definizione del protocollo aggiornamento.|PARFRA|20160204||1"/>
+    <Riga Fld="0000000073|WE|Webup|CASFRA||C||B||20160204|booleanButton: in mobile non esiste questo componente|PARFRA|20160204||2"/>
+    <Riga Fld="0000000074|WE|Webup|MINCLA||C||M||20160301|In mobile, css da modificare:&#13;&#10;spinner (SPN)&#13;&#10;slider (SLD)&#13;&#10;radiobutton (RAD)&#13;&#10;checkboxlist (CHL)&#13;&#10;immagine (IMG)&#13;&#10;rating (RTG)&#13;&#10;range (RNG)&#13;&#10;button colore default (BTN)&#13;&#10;|PARFRA|20160204||3"/>
+    <Riga Fld="0000000075|WE|Webup|CASFRA||C||B||20160210|controllare quali field non hanno il p:ajax|PARFRA|20160204||4"/>
+    <Riga Fld="0000000076|WE|Webup|FEDROB||C||M||20160222|signature: in mobile non viene renderizzato (e neanche in web)|PARFRA|20160204||5"/>
+    <Riga Fld="0000000078|WE|Webup|MINCLA||C||B||20160204|Graphcomp selectManyMenu: in mobile viene na schifezza|PARFRA|20160204||6"/>
+    <Riga Fld="0000000080|WE|Webup|CASFRA||C||B||20160204|Lavori sui graphcomp (vedi allegato)|PARFRA|20160204|https://docs.google.com/document/d/17ClkDi_VNQH93mld-gPUJ112f17P_rmef1mk4lFQkC8/edit|7"/>
+    <Riga Fld="0000000084|MO|Mobile|DELGIO||C||A||20160205|Immagini store e descrizione da aggiornare (apple e google)|PARFRA|20160204||8"/>
+    <Riga Fld="0000000085|WE|Webup|CASFRA||C||B||20160211|Per i B2B potrebbe essere necessaria una paginetta che sostituisca la login quando il sistema non è attivo (Es. manutenzione provider, ecc..) Segnalato da Seven Diesel|PARFRA|20160204||9"/>
+    <Riga Fld="0000000087|WE|Webup|FIOGIA||C||A||20160205|formulas (matrice). Fatte due schede d'esempio, manca l'implementazione web. Vedere classi (SmeupFormulaSolver) Loocup in progetto SmeDevSVN|PARFRA|20160204||10"/>
+    <Riga Fld="0000000088|WE|Webup|CARLUC||A||B||20160204|configuratore (compresa la ricorsione, di cui abbiamo creato un esempio).|PARFRA|20160204||11"/>
+    <Riga Fld="0000000090|MO|Mobile|MARAND||C||A||20160205|verificare dinamismi al close|WU3_01|20160204||12"/>
+    <Riga Fld="0000000091|MO|Mobile|MARAND||C||B||20160206|verificare differenze vecchia/nuova matrice mobile|WU3_01|20160204|https://docs.google.com/document/d/1Sud3aZ_qKknlbsrLTmAH16Tl-Bgcn0385_LbDmU-Zq4/edit?usp=sharing|13"/>
+    <Riga Fld="0000000092|LO|Loocup|FEDROB||C||A||20160206|scovare (e risolvere) memory leak delphi. In alternativa, decidere se ha senso fregrarsene&#13;&#10;|WU3_01|20160204||14"/>
+    <Riga Fld="0000000093|LO|Loocup|MAEOLI||C||A||20160204|SPC: verificare errori segnalati da Roberta Colombo (vedi email). Prima di tutto riprendere in mano il componente a studiarne il funzionamento.&#13;&#10;Dobbiamo dare una risposta il prima possibile. C'è il cliente sul piede di guerra, minaccia di prendere un'altra soluzione.|WU3_01|20160204||15"/>
+    <Riga Fld="0000000094|WE|Webup|PARFRA||C||A||20160206|leggere dimensioni scheda da setup e usarle nei dialog. Confrontarsi con Claudio per decidere come mettere le suddette dimensioni nella pagina.|WU3_01|20160204||16"/>
+    <Riga Fld="0000000095|WE|Webup|PARFRA||C||B||20160204|rendere la scheda task utilizzabile da mobile|WU3_01|20160204||17"/>
+    <Riga Fld="0000000096|LO|Loocup|DELGIO||C||B||20160204|ridiscutere MDV con Silvio e Mauro, rispetto a quanto ci siamo detti sull'implementazione &quot;finale&quot;. In alternativa andare di implementazione base, con iupopup che gestiscono una tendina (leaf=Din)|WU3_01|20160204||18"/>
+    <Riga Fld="0000000097|LO|Loocup|FORFED||C||A||20160212|Provider: gestire le A() cieche, sia quelle che non rispondono che quelle che rispondono con una action di tipo F()|WU3_01|20160204||19"/>
+    <Riga Fld="0000000098|LO|Loocup|PARFRA||C||A||20160211|Provider su linux:  Creare progetto su SVN. Creare progetto eclipse sulla vm linux creata da gianluca e farlo partire come webapp. Iniziare con i test sulle cartelle.|WU3_01|20160204||20"/>
+    <Riga Fld="0000000099|WE|Webup|MINCLA||C||B||20160204|problemi css da mail di Stefano Lancini|WU3_01|20160204||21"/>
+    <Riga Fld="0000000100|WE|Webup|CASFRA||C||B||20160310|ottimizzazione inputpanel: caricare combo lazy|WU3_01|20160204||22"/>
+    <Riga Fld="0000000101|WE|Webup|CASFRA||C||A||20160204|Insert e Delete in input panel non sono tradotti!|WU3_01|20160204||23"/>
+    <Riga Fld="0000000102|WE|Webup|MINCLA||C||B||20160204|CSS per dimensionamento dei dialog: come dobbiamo modificare la parte jsf per impostarlo leggendolo dalla scheda? E il default quale deve essere?|WU3_01|20160204||24"/>
+    <Riga Fld="0000000103|WE|Webup|SANCOS||C||A||20160204|modificare box progetto in task|WU3_01|20160204||25"/>
+    <Riga Fld="0000000104|WE|Webup|SANCOS||C||A||20160204|aggiungere ai box dei task la priorità|WU3_01|20160204||26"/>
+    <Riga Fld="0000000105|MO|Mobile|FEDROB||C||B||20160301|mobile verificare colorPicker, editor (OK), listbox (mobile NO, webup NO con checkbox + problemi ctrl in mac)|WU3_01|20160204||27"/>
+    <Riga Fld="0000000106|WE|Webup|DELGIO||C||B||20160204|validare implementazione di *CHECK|WU3_01|20160204||28"/>
+    <Riga Fld="0000000107|LO|Loocup|MAEOLI||A||M||20160205|Rivedere in toto le procedure rilascio loocup|WU3_01|20160204||29"/>
+    <Riga Fld="0000000108|LO|Loocup|FORFED||P||B||20160208|deviare ja_00_ cartelle e file nel caso di j8 e j9|WU3_01|20160204||30"/>
+  </Righe>
+  <Messaggi>
+    <Messaggio Gravity="INFO" Mode="HH" Testo="SQL Statement" TestoCompleto="SELECT X1TASK0F.* , RRN(X1TASK0F) AS $_RRN FROM X1TASK0F" Tipo="INFO"/>
+    <Esito Stato="OK"/>
+  </Messaggi>
+  <UIPopup> <Oggetto Codice="" Exec="F(EXD;*SCO;) 1(ID;X1TASK0F  ;[POPUP.$_RRN])" Parametro="" Testo="Dettaglio record" Tipo=""/>
+    <Oggetto Codice="*NEXT" Exec="F(EXB;LOA13_SE;ESE.SQL   ) 1(  ;          ;E/*JOB) 2(  ;          ;               ) 3(  ;          ;               ) 4(  ;          ;               ) INPUT(SELECT * FROM X1TASK0F) P(TPZ() NRW(30) CHD() HML() SNM() LVL() SRP() T01() Pag(CONT))" Parametro="KEY" ShowIcon="Yes" Testo="Segue  (1 / 4 - 30 / 297)" Tipo="J1"/>
+  </UIPopup> <Setup>
+    <Program Context="LOA13_SE\IDX1TASK0F\\">
+      <EXB> <Setup AlignTotal="Yes" DiskSwap="Yes" EnableSort="Yes" Expanded="Yes" HlRecord="Yes" Icone="No" MaxCells="2000000" Name="Base" RowsPerPage="20" ShowFilter="Yes" ShowGroup="Yes" ShowTotal="Yes"/> <UserSetups Exist="No"/>
+      </EXB>
+      <FRM Name="A01" OvrwGenF="Yes" PLGO1="" PLGO2="[LGO.001]" Subtitle="Gest Mask 22/11" Title="" Type="REP"/>
+      <EXC>
+        <Setup Name="A01"/>
+      </EXC>
+      <EXA/>
+    </Program>
+  </Setup>
+</UiSmeup>
