@@ -29,24 +29,29 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
  */
 public class SelectiveContext {
 
-	// Crea UIGridXmlObject, li mette in lista, ritorna la lista
+	// Riempie la lista di tutti gli UIGridXmlObject relativi
+	// a ciascun file .xml della directory specificata
 	public static ArrayList<UIGridXmlObject> createData() {
 		ArrayList<UIGridXmlObject> list = new ArrayList<>();
 		int cont = 1;
 		File dir = new File("src/main/resources/xml/xmltest");
 		for (File f : dir.listFiles()) {
-			UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f));
-			u.setComment("u" + cont); // Commento inteso come nome della tabella
-			System.out.println(u.getComment());
-			list.add(u);
-			cont++;
+			if (f.getName().endsWith(".xml")) {
+				UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f));
+				u.setComment("u" + cont); // Commento inteso come nome della tabella. 
+				//Servirà più avanti per identificare la tabella
+				System.out.println(u.getComment());
+				list.add(u);
+				cont++;
+			}
 		}
 		return list;
 	}
 
-	// Legge il contenuto delle celle, elabora di modo tale che abbia in mano un
-	// oggetto (se esiste)
-	// UIGridXmlObject, lo mette nel context (se non c'è già)
+	/*
+	 * Legge il contenuto delle celle, elabora di modo tale che abbia in mano un
+	 * oggetto (se esiste) UIGridXmlObject, lo mette nel context (se non c'è già)
+	 */
 	public static Context readStuff(List<UIGridXmlObject> list) throws Exception, IOException {
 		System.out.println("Sono dentro");
 		InputStream in = new FileInputStream("src/main/resources/excel/sel_template.xlsx");
@@ -55,10 +60,11 @@ public class SelectiveContext {
 		for (Sheet s : wb) {
 			for (Row r : s) {
 				for (Cell c : r) {
-					if (c.getStringCellValue().startsWith("${")) {
+					if (c.getStringCellValue().startsWith("${") &&c.getStringCellValue().endsWith("}")) { // Quindi è un comando Jxls
+						// Toglie i caratteri speciali dalla cella
 						String string = c.getStringCellValue().replace("${", "");
 						string = string.replace("}", "");
-						System.out.println("Cella " + c.getAddress() + ": " + string);
+						System.out.println(" Cella " + c.getAddress() + ": " + string);
 						String arrString[] = string.split("_");
 
 						// Cerca se esiste nella lista un uxo con commento = arrString[0]
@@ -73,15 +79,23 @@ public class SelectiveContext {
 										}
 									}
 									int numCol = Integer.parseInt(col.toString());
-									System.out.println("Inserisco nel context " + arrString[0] + "_" + arrString[1]);
-									context.putVar(arrString[0] + "_" + arrString[1],
-											Arrays.asList(uxo.getFormattedColumnValues(uxo.getColumnByIndex(numCol).getCod())));
+
+									try {
+										System.out
+												.println("  Inserisco nel context " + arrString[0] + "_" + arrString[1]);
+										context.putVar(arrString[0] + "_" + arrString[1], Arrays.asList(
+												uxo.getFormattedColumnValues(uxo.getColumnByIndex(numCol).getCod())));
+										// Passata come Arrays.asList, sennò non si può iterare in Jxls
+									} catch (Exception e) {
+										System.out.println("  Non esiste la colonna indicata.");
+										e.printStackTrace();
+									}
 
 								} else {
 									System.out.println(
-											"C'è già nel context l'oggetto " + arrString[0] + "_" + arrString[1]);
+											"  Esista già nel context l'oggetto " + arrString[0] + "_" + arrString[1]);
 								}
-								// Eventualmente applica anche il commento alla cella per l'iterazione
+								//TODO: Eventualmente applicare anche il commento alla cella per l'iterazione in Jxls
 							}
 						}
 					}
@@ -94,7 +108,7 @@ public class SelectiveContext {
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("Inizio...");
+		System.out.println("Inizio elaborazione...");
 		InputStream in = new FileInputStream("src/main/resources/excel/sel_template.xlsx");
 		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_output.xlsx");
 		Context context = new Context();
@@ -102,7 +116,7 @@ public class SelectiveContext {
 		context = readStuff(list);
 		JxlsHelper.getInstance().processTemplate(in, out, context);
 		in.close();
-		System.out.println("Fine.");
+		System.out.println("Fine elaborazione.");
 	}
 
 }
