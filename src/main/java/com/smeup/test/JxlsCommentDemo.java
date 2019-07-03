@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
@@ -37,43 +38,27 @@ public class JxlsCommentDemo {
 		Workbook wb = new XSSFWorkbook(in);
 		CreationHelper factory = wb.getCreationHelper();
 		Sheet s = wb.getSheetAt(0);
-		for (Row r : s)
+		@SuppressWarnings("rawtypes")
+		Drawing drawing = s.createDrawingPatriarch();
+		CellAddress last = s.getRow(0).getCell(0).getAddress();
+		for (Row r : s) {
 			for (Cell c : r) {
 				if (c.getCellType() == CellType.STRING) {
+					System.out.println("Sono alla cella "+c.getAddress());
 					if (c.getStringCellValue().equals("comment here")) {
 						System.out.println("Creo il commento...");
-
 						ClientAnchor anchor = factory.createClientAnchor();
-						anchor.setCol1(c.getColumnIndex() + 1); // la box del commento parte qui...
-						anchor.setCol2(c.getColumnIndex() + 3); // ...e finisce qui
-						anchor.setRow1(c.getRowIndex() + 1); // inizia una riga sotto la cella...
-						anchor.setRow2(c.getRowIndex() + 5); // ...e 4 righe sopra
-
-						@SuppressWarnings("rawtypes")
-						Drawing drawing = s.createDrawingPatriarch();
 						Comment comment = drawing.createCellComment(anchor);
 						// testo e autore
 						comment.setString(factory.createRichTextString("Hello"));
 						comment.setAuthor("Me");
-
 						c.setCellComment(comment);
 						System.out.println("Commento applicato.");
 					}
-					if (c.getStringCellValue().startsWith("PRINT")) {
+					else if (c.getStringCellValue().startsWith("PRINT")) {
 						String stuff[] = c.getStringCellValue().split(" ");
 						context.putVar(stuff[1], Arrays.asList(new String[] { "Test", "Test2" }));
 						ClientAnchor anchor = factory.createClientAnchor();
-						/*
-						 * Occorre sempre definire queste coordinate, in quanto più commenti
-						 * non possono essere nella stessa posizione
-						 */
-						anchor.setCol1(c.getColumnIndex() + 1); // la box del commento parte qui...
-						anchor.setCol2(c.getColumnIndex() + 3); // ...e finisce qui
-						anchor.setRow1(c.getRowIndex() + 1); // inizia una riga sotto la cella...
-						anchor.setRow2(c.getRowIndex() + 5); // ...e 4 righe sopra
-
-						@SuppressWarnings("rawtypes")
-						Drawing drawing = s.createDrawingPatriarch();
 						Comment comment = drawing.createCellComment(anchor);
 						// testo e autore
 						comment.setString(factory.createRichTextString("jx:each(lastCell=" + "'" + c.getAddress() + "'"
@@ -81,22 +66,15 @@ public class JxlsCommentDemo {
 						comment.setAuthor("Me");
 						c.setCellComment(comment);
 						c.setCellValue("${obj}");
+						last = c.getAddress();
 					}
-					/*
-					 * if (c.getStringCellValue().toLowerCase().equals("start")); { ClientAnchor
-					 * anchor = factory.createClientAnchor(); anchor.setCol1(c.getColumnIndex() +
-					 * 1); anchor.setCol2(c.getColumnIndex() + 3); anchor.setRow1(c.getRowIndex() +
-					 * 1); anchor.setRow2(c.getRowIndex() + 5);
-					 * 
-					 * Drawing drawing = s.createDrawingPatriarch(); Comment comment =
-					 * drawing.createCellComment(anchor);
-					 * 
-					 * //TODO Generalizzare di modo tale che trovi da solo l'area di fine
-					 * comment.setString(factory.createRichTextString("jx:area(lastCell='A7')"));
-					 * c.setCellComment(comment); }
-					 */
 				}
 			}
+		}
+		ClientAnchor anchor = factory.createClientAnchor();
+		Comment comment = drawing.createCellComment(anchor);
+		comment.setString(factory.createRichTextString("jx:area(lastCell='"+last+"')"));
+		comment.setAddress(0, 0);
 
 		wb.write(out);
 		wb.close();
@@ -104,15 +82,12 @@ public class JxlsCommentDemo {
 		out.close();
 		System.out.println("Fine elaborazione.");
 		System.out.println("Inizio processing con Jxls...");
-
-		/* Test */
 		InputStream is = new FileInputStream("src/main/resources/excel/comment_output.xlsx");
 		OutputStream os = new FileOutputStream("src/main/resources/excel/commentelab_output.xlsx");
 		JxlsHelper.getInstance().processTemplate(is, os, context);
 		is.close();
 		os.close();
 		System.out.println("Fine processing.");
-		/* Fine Test */
 	}
 
 	public static void main(String[] args) throws IOException {
