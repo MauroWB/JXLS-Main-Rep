@@ -34,7 +34,6 @@ public class JxlsCommentDemo {
 		InputStream in = new FileInputStream("src/main/resources/excel/comment_template.xlsx");
 		OutputStream out = new FileOutputStream("src/main/resources/excel/comment_output.xlsx");
 		Context context = new Context();
-
 		Workbook wb = new XSSFWorkbook(in);
 		CreationHelper factory = wb.getCreationHelper();
 		Sheet s = wb.getSheetAt(0);
@@ -44,7 +43,7 @@ public class JxlsCommentDemo {
 		for (Row r : s) {
 			for (Cell c : r) {
 				if (c.getCellType() == CellType.STRING) {
-					System.out.println("Sono alla cella "+c.getAddress());
+					System.out.println("Sono alla cella " + c.getAddress());
 					if (c.getStringCellValue().equals("comment here")) {
 						System.out.println("Creo il commento...");
 						ClientAnchor anchor = factory.createClientAnchor();
@@ -54,8 +53,7 @@ public class JxlsCommentDemo {
 						comment.setAuthor("Me");
 						c.setCellComment(comment);
 						System.out.println("Commento applicato.");
-					}
-					else if (c.getStringCellValue().startsWith("PRINT")) {
+					} else if (c.getStringCellValue().startsWith("PRINT")) {
 						String stuff[] = c.getStringCellValue().split(" ");
 						context.putVar(stuff[1], Arrays.asList(new String[] { "Test", "Test2" }));
 						ClientAnchor anchor = factory.createClientAnchor();
@@ -73,7 +71,7 @@ public class JxlsCommentDemo {
 		}
 		ClientAnchor anchor = factory.createClientAnchor();
 		Comment comment = drawing.createCellComment(anchor);
-		comment.setString(factory.createRichTextString("jx:area(lastCell='"+last+"')"));
+		comment.setString(factory.createRichTextString("jx:area(lastCell='" + last + "')"));
 		comment.setAddress(0, 0);
 
 		wb.write(out);

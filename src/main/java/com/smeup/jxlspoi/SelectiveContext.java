@@ -23,6 +23,8 @@ import org.apache.poi.ss.util.CellAddress;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
+import com.smeup.test.POIUtilities;
+
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
@@ -54,9 +56,8 @@ public class SelectiveContext {
 	// Legge il contenuto delle celle, elabora di modo tale che abbia in mano un
 	// oggetto (se esiste) UIGridXmlObject, lo mette nel context (se non c'è già)
 	public static Context readStuff(List<UIGridXmlObject> list) throws Exception, IOException {
-		System.out.println("Sono dentro");
-		InputStream in = new FileInputStream("src/main/resources/excel/sel_template.xlsx");
-		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_temp.xlsx");
+		InputStream in = new FileInputStream("src/main/resources/excel/sel_cont/sel_template.xlsx");
+		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_cont/sel_temp.xlsx");
 		Context context = new Context();
 		Workbook wb = WorkbookFactory.create(in);
 		CellAddress lastCell = new CellAddress(0, 0);
@@ -93,11 +94,15 @@ public class SelectiveContext {
 									try {
 										System.out.println(
 												"  Inserisco nel context " + arrString[0] + "_" + arrString[1]);
-										context.putVar(arrString[0] + "_" + arrString[1], Arrays.asList(
+										// Volendo passare la lista delle colonne + intestazione al primo posto si usa
+										// il metodo add (int, obj), che fa shiftare tutti gli elementi
+										List<Object> arr = new ArrayList<>();
+										arr.add(uxo.getColumnByIndex(numCol).getTxt());
+										arr.addAll(Arrays.asList(
 												uxo.getFormattedColumnValues(uxo.getColumnByIndex(numCol).getCod())));
+										context.putVar(arrString[0] + "_" + arrString[1], arr);
 										// Passata come Arrays.asList, sennò non si può iterare in Jxls
 									} catch (Exception e) {
-										System.out.println("  Non esiste la colonna indicata.");
 										e.printStackTrace();
 										flag = false;
 										// Se la colonna non esiste, non c'è bisogno che venga applicato il commento in
@@ -118,7 +123,17 @@ public class SelectiveContext {
 											+ "_" + arrString[1] + "' direction='DOWN'" + ")"));
 									comment.setAuthor("Author");
 									c.setCellComment(comment);
-									lastCell = c.getAddress();
+
+									// Per dare le dimensioni giuste alla XLS Area
+									if (lastCell.getRow() < c.getRowIndex()) {
+										int temp = lastCell.getColumn();
+										// Purtroppo non si possono settare singolarmente Row e Column
+										lastCell = new CellAddress(c.getRowIndex(), temp);
+									}
+									if (lastCell.getColumn() < c.getColumnIndex()) {
+										int temp = lastCell.getRow();
+										lastCell = new CellAddress(temp, c.getColumnIndex());
+									}
 								}
 							}
 						}
@@ -139,16 +154,30 @@ public class SelectiveContext {
 		return context;
 	}
 
+	public static void adjust() throws IOException {
+		System.out.println(" Formattazione colonne...");
+		InputStream in = new FileInputStream("src/main/resources/excel/sel_cont/sel_output.xlsx");
+		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_cont/sel_formattedoutput.xlsx");
+		Workbook wb = WorkbookFactory.create(in);
+		POIUtilities.fitColumns(wb);
+		wb.write(out);
+		wb.close();
+		in.close();
+		out.close();
+		System.out.println(" Fine formattazione colonne.");
+	}
+
 	public static void main(String[] args) throws Exception {
 		System.out.println("Inizio elaborazione...");
-		InputStream in = new FileInputStream("src/main/resources/excel/sel_temp.xlsx");
-		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_output.xlsx");
+		InputStream in = new FileInputStream("src/main/resources/excel/sel_cont/sel_temp.xlsx");
+		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_cont/sel_output.xlsx");
 		Context context = new Context();
 		List<UIGridXmlObject> list = createData();
 		context = readStuff(list);
 		JxlsHelper.getInstance().processTemplate(in, out, context);
 		in.close();
 		out.close();
+		adjust();
 		System.out.println("Fine elaborazione.");
 	}
 
