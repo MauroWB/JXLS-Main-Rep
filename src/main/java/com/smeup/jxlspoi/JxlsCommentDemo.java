@@ -1,4 +1,4 @@
-package com.smeup.test;
+package com.smeup.jxlspoi;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
