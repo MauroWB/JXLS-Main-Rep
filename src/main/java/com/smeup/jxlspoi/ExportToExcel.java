@@ -6,7 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.ClientAnchor;
@@ -29,7 +30,7 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
  * Prende un file Xml e lo esporta su Excel automaticamente,
  * senza che l'utente debba creare alcun file template
  */
-public class ExportInExcel {
+public class ExportToExcel {
 
 	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws IOException {
@@ -74,8 +75,12 @@ public class ExportInExcel {
 		Context context = new Context();
 		int col = 1; // Numero della colonna
 		for (UIGridColumn uc : u.getColumns()) {
+			List<Object> sub = new ArrayList<Object>();
+			sub.add(uc.getTxt());
+			System.out.println(sub.get(0));
+			sub.add(u.getFormattedColumnValues(uc.getCod())); //TODO: Inserisce tutto l'array, ma non è formattato per avere array al suo interno
 			System.out.println("Aggiungo la colonna " + col);
-			context.putVar("u1_col" + col, Arrays.asList(u.getFormattedColumnValues(uc.getCod())));
+			context.putVar("u1_col" + col, sub);
 			col++;
 		}
 		CellAddress last = new CellAddress(0,0); // Modificare?
