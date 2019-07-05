@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -30,6 +31,8 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
  * Prende un file Xml e lo esporta su Excel automaticamente,
  * senza che l'utente debba creare alcun file template
  */
+
+// Tenere la scansione di tutta la directory?
 public class ExportToExcel {
 
 	@SuppressWarnings("rawtypes")
@@ -75,32 +78,32 @@ public class ExportToExcel {
 		Context context = new Context();
 		int col = 1; // Numero della colonna
 		for (UIGridColumn uc : u.getColumns()) {
-			List<Object> sub = new ArrayList<Object>();
+			List<Object> sub = new ArrayList<>();
 			sub.add(uc.getTxt());
-			System.out.println(sub.get(0));
-			sub.add(u.getFormattedColumnValues(uc.getCod())); //TODO: Inserisce tutto l'array, ma non è formattato per avere array al suo interno
+			sub.addAll(Arrays.asList(u.getFormattedColumnValues(uc.getCod())));
 			System.out.println("Aggiungo la colonna " + col);
 			context.putVar("u1_col" + col, sub);
 			col++;
 		}
-		CellAddress last = new CellAddress(0,0); // Modificare?
+		
+		CellAddress last = new CellAddress(0,0);
 
 		for (int i = 0; i < u.getColumnsCount(); i++) {
 			r1.createCell(i);
 			Cell m = r1.getCell(i);
-			System.out.println("M è all'indirizzo " + m.getAddress());
 			m.setCellValue("${u1_col" + (i + 1) + "}");
 
 			ClientAnchor anchor = factory.createClientAnchor();
 			Comment comment = drawing.createCellComment(anchor);
-			comment.setString(factory.createRichTextString("jx:each(lastCell='" + m.getAddress() + "' items='u1_col"
-					+ (i + 1) + "' var='u1_col" + (i + 1) + "' direction='DOWN')"));
+			comment.setString(factory.createRichTextString("jx:each(lastCell='" + m.getAddress() 
+				+ "' items='u1_col" + (i + 1) 
+				+ "' var='u1_col" + (i + 1) 
+				+ "' direction='DOWN')"));
 			comment.setAuthor("Me");
 
 			m.setCellComment(comment);
 			System.out.println("Commento applicato.");
-			// Viene salvato l'indirizzo dell'ultima cella avente contenuto Jxls
-			// così da potere definire la Xls Area
+			
 			if (last.getRow() < m.getRowIndex()) {
 				int temp = last.getColumn();
 				// Purtroppo non si possono settare singolarmente Row e Column
@@ -111,7 +114,7 @@ public class ExportToExcel {
 				last = new CellAddress(temp, m.getColumnIndex());
 			}
 		}
-		// Definizione area
+		// Definizione XLS Area
 		Cell ori = sheet.getRow(0).getCell(0);
 		ClientAnchor anchor = factory.createClientAnchor();
 		Comment comment = drawing.createCellComment(anchor);
