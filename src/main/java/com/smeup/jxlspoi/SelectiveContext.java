@@ -60,7 +60,7 @@ public class SelectiveContext {
 		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_cont/sel_temp.xlsx");
 		Context context = new Context();
 		Workbook wb = WorkbookFactory.create(in);
-		CellAddress lastCell = new CellAddress(0, 0);
+		CellAddress lastCell = new CellAddress(0, 0); // Servirà per definire la XLS Area
 		CreationHelper factory = wb.getCreationHelper(); // Occorrerà per creare i commenti
 		for (Sheet s : wb) {
 			@SuppressWarnings("rawtypes")
@@ -78,8 +78,7 @@ public class SelectiveContext {
 						// Cerca se esiste nella lista un uxo con commento == arrString[0]
 						for (UIGridXmlObject uxo : list) {
 							if (uxo.getComment().equals(arrString[0])) {
-
-								boolean flag = true;
+								
 								// Inserisce l'uxo nel context solo se non è stato ancora inserito
 								if (context.getVar(arrString[0] + "_" + arrString[1]) == null) {
 									StringBuffer col = new StringBuffer();
@@ -102,38 +101,33 @@ public class SelectiveContext {
 												uxo.getFormattedColumnValues(uxo.getColumnByIndex(numCol).getCod())));
 										context.putVar(arrString[0] + "_" + arrString[1], arr);
 										// Passata come Arrays.asList, sennò non si può iterare in Jxls
-									} catch (Exception e) {
+										// Crea e applica il commento
+										ClientAnchor anchor = factory.createClientAnchor();
+										Comment comment = drawing.createCellComment(anchor);
+										comment.setString(factory.createRichTextString("jx:each(lastCell='" + c.getAddress()
+												+ "' items='" + arrString[0] + "_" + arrString[1] + "' var='" + arrString[0]
+												+ "_" + arrString[1] + "' direction='DOWN'" + ")"));
+										comment.setAuthor("Author");
+										c.setCellComment(comment);
+
+										// Per dare le dimensioni giuste alla XLS Area
+										if (lastCell.getRow() < c.getRowIndex()) {
+											int temp = lastCell.getColumn();
+											// Purtroppo non si possono settare singolarmente Row e Column
+											lastCell = new CellAddress(c.getRowIndex(), temp);
+										}
+										if (lastCell.getColumn() < c.getColumnIndex()) {
+											int temp = lastCell.getRow();
+											lastCell = new CellAddress(temp, c.getColumnIndex());
+										}
+									}
+									catch (Exception e) {
 										e.printStackTrace();
-										flag = false;
-										// Se la colonna non esiste, non c'è bisogno che venga applicato il commento in
-										// Excel, quindi flag va a false
 									}
 
 								} else {
 									System.out.println(
 											"  Esista già nel context l'oggetto " + arrString[0] + "_" + arrString[1]);
-								}
-
-								if (flag) {
-									// Crea e applica il commento
-									ClientAnchor anchor = factory.createClientAnchor();
-									Comment comment = drawing.createCellComment(anchor);
-									comment.setString(factory.createRichTextString("jx:each(lastCell='" + c.getAddress()
-											+ "' items='" + arrString[0] + "_" + arrString[1] + "' var='" + arrString[0]
-											+ "_" + arrString[1] + "' direction='DOWN'" + ")"));
-									comment.setAuthor("Author");
-									c.setCellComment(comment);
-
-									// Per dare le dimensioni giuste alla XLS Area
-									if (lastCell.getRow() < c.getRowIndex()) {
-										int temp = lastCell.getColumn();
-										// Purtroppo non si possono settare singolarmente Row e Column
-										lastCell = new CellAddress(c.getRowIndex(), temp);
-									}
-									if (lastCell.getColumn() < c.getColumnIndex()) {
-										int temp = lastCell.getRow();
-										lastCell = new CellAddress(temp, c.getColumnIndex());
-									}
 								}
 							}
 						}
