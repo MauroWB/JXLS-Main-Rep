@@ -55,7 +55,7 @@ public class SelectiveContext {
 
 	// Legge il contenuto delle celle, elabora di modo tale che abbia in mano un
 	// oggetto (se esiste) UIGridXmlObject, lo mette nel context (se non c'è già)
-	public static Context readStuff(List<UIGridXmlObject> list) throws Exception, IOException {
+	public static Context read(List<UIGridXmlObject> list) throws Exception, IOException {
 		InputStream in = new FileInputStream("src/main/resources/excel/sel_cont/sel_template.xlsx");
 		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_cont/sel_temp.xlsx");
 		Context context = new Context();
@@ -173,7 +173,7 @@ public class SelectiveContext {
 		OutputStream out = new FileOutputStream("src/main/resources/excel/sel_cont/sel_output.xlsx");
 		Context context = new Context();
 		List<UIGridXmlObject> list = createData();
-		context = readStuff(list);
+		context = read(list);
 		JxlsHelper.getInstance().processTemplate(in, out, context);
 		in.close();
 		out.close();

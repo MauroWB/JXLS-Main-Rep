@@ -33,7 +33,7 @@ public class ExportInExcel {
 
 	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws IOException {
-		File dir = new File("src/main/resources/xml/export/");
+		File dir = new File("src/main/resources/xml/xmltest");
 		boolean exists = false;
 		// Prende il primo file con estensione .xml
 		File[] list = dir.listFiles();
@@ -78,7 +78,7 @@ public class ExportInExcel {
 			context.putVar("u1_col" + col, Arrays.asList(u.getFormattedColumnValues(uc.getCod())));
 			col++;
 		}
-		CellAddress last = new CellAddress(c); // Modificare?
+		CellAddress last = new CellAddress(0,0); // Modificare?
 
 		for (int i = 0; i < u.getColumnsCount(); i++) {
 			r1.createCell(i);
@@ -87,10 +87,6 @@ public class ExportInExcel {
 			m.setCellValue("${u1_col" + (i + 1) + "}");
 
 			ClientAnchor anchor = factory.createClientAnchor();
-			anchor.setCol1(m.getColumnIndex() + 1);
-			anchor.setCol2(m.getColumnIndex() + 3);
-			anchor.setRow1(m.getRowIndex() + 1);
-			anchor.setRow2(m.getRowIndex() + 5);
 			Comment comment = drawing.createCellComment(anchor);
 			comment.setString(factory.createRichTextString("jx:each(lastCell='" + m.getAddress() + "' items='u1_col"
 					+ (i + 1) + "' var='u1_col" + (i + 1) + "' direction='DOWN')"));
@@ -100,16 +96,19 @@ public class ExportInExcel {
 			System.out.println("Commento applicato.");
 			// Viene salvato l'indirizzo dell'ultima cella avente contenuto Jxls
 			// così da potere definire la Xls Area
-			if (i == u.getColumnsCount() - 1)
-				last = m.getAddress();
+			if (last.getRow() < m.getRowIndex()) {
+				int temp = last.getColumn();
+				// Purtroppo non si possono settare singolarmente Row e Column
+				last = new CellAddress(m.getRowIndex(), temp);
+			}
+			if (last.getColumn() < m.getColumnIndex()) {
+				int temp = last.getRow();
+				last = new CellAddress(temp, m.getColumnIndex());
+			}
 		}
 		// Definizione area
 		Cell ori = sheet.getRow(0).getCell(0);
 		ClientAnchor anchor = factory.createClientAnchor();
-		anchor.setCol1(ori.getColumnIndex() + 1);
-		anchor.setCol2(ori.getColumnIndex() + 3);
-		anchor.setRow1(ori.getRowIndex() + 1);
-		anchor.setRow2(ori.getRowIndex() + 5);
 		Comment comment = drawing.createCellComment(anchor);
 		comment.setString(factory.createRichTextString("jx:area(lastCell='" + last + "')"));
 		ori.setCellComment(comment);

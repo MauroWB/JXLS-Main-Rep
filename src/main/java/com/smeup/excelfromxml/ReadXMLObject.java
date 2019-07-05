@@ -59,7 +59,7 @@ public class ReadXMLObject {
 	
 	public static void main(String[] args)
 			throws GridOperationException, DocumentException, SAXException, IOException, ParserConfigurationException {
-		Document d = UIXmlUtilities.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml");
+		Document d = UIXmlUtilities.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/generatorTest/test.xml");
 		
 		System.out.println(d.getRootElement().selectNodes("//Riga").size());
 		UIGridXmlObject u = new UIGridXmlObject(d);
