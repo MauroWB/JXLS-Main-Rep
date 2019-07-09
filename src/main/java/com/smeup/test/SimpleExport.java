@@ -32,13 +32,11 @@ public class SimpleExport {
 			master.add(sub);
 			System.out.println("Aggiunta colonna numero " + i);
 		}
-
 		InputStream is = new FileInputStream("src/main/resources/excel/export/export_input.xlsx");
 		OutputStream os = new FileOutputStream("src/main/resources/excel/export/export_output.xlsx");
 
 		Context context = new Context();
 		context.putVar("master", master);
-
 		JxlsHelper.getInstance().processTemplate(is, os, context);
 		System.out.println("Fine");
 
