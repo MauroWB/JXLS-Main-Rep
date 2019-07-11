@@ -13,47 +13,77 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
-import org.jxls.area.Area;
 import org.jxls.area.XlsArea;
 import org.jxls.builder.AreaBuilder;
 import org.jxls.builder.xls.XlsCommentAreaBuilder;
 import org.jxls.transform.poi.PoiTransformer;
 
-//TODO: Da finire
 public class ClearCellsDemo {
 
-	public static void writeDown(Workbook wb, List<Area> xlsAreaList) {
-		XlsArea xlsArea = (XlsArea) xlsAreaList.get(0);
+	public static void writeDown(Workbook wb, List<XlsArea> xlsAreaList) {
+		XlsArea xlsArea = xlsAreaList.get(0);
 		int actRow = xlsArea.getStartCellRef().getRow();
 		int finRow = xlsArea.getAreaRef().getLastCellRef().getRow();
 		System.out.println("Inizia a riga " + actRow + " e finisce a riga " + finRow);
 		Sheet s = wb.getSheetAt(0);
 
-		for (Area x : xlsAreaList) {
-
+		for (XlsArea x : xlsAreaList) {
 			System.out.println(x.getAreaRef().getFirstCellRef());
-			String g = x.getAreaRef().getFirstCellRef().toString(true);
-			CellReference firstCellRef = new CellReference(g);
+			CellReference firstCellRef = new CellReference(x.getAreaRef().getFirstCellRef().toString(true));
 			CellReference finalCellRef = new CellReference(x.getAreaRef().getLastCellRef().toString(true));
-
 			// Test, sostituire il contenuto di tutte le celle dell'area
 			for (int startingRow = firstCellRef.getRow(); startingRow <= finalCellRef.getRow(); startingRow++) {
 				for (int startingColumn = firstCellRef.getCol(); startingColumn <= finalCellRef
 						.getCol(); startingColumn++) {
-					// s.getRow(startingRow).getCell(startingColumn).setCellValue("Pulizia");
-					
+
 					Cell c = s.getRow(startingRow).getCell(startingColumn);
-					System.out.println("Cella: " + c.getAddress()); // Forse deve creare la cella
-					if (c.getCellType().equals(CellType.STRING) && c.getStringCellValue().equalsIgnoreCase("clear"))
-						((XlsArea) x).clearCells();
-					}
-					
-
+					// System.out.println("Cella: " + c.getAddress());
+					if (c != null && c.getCellType().equals(CellType.STRING)
+							&& c.getStringCellValue().equalsIgnoreCase("clear"))
+						x.clearCells();
 				}
-			System.out.println("Passo alla prossima area...");
 			}
-
+			System.out.println("Passo alla prossima area...");
+		}
+		// Shiftare le aree?
 		System.out.println("Job done");
+	}
+
+	/**
+	 * Cancella le righe prive di valori.
+	 * 
+	 * @param workbook
+	 * @param xlsAreaList
+	 */
+	public static void checkValues(Workbook wb, List<XlsArea> xlsAreaList) {
+		Sheet s = wb.getSheetAt(0);
+		boolean deleteRow = false;
+		for (XlsArea x : xlsAreaList) {
+			CellReference firstCellRef = new CellReference(x.getAreaRef().getFirstCellRef().toString(true));
+			CellReference finalCellRef = new CellReference(x.getAreaRef().getLastCellRef().toString(true));
+
+			for (int startingRow = firstCellRef.getRow(); startingRow <= finalCellRef.getRow(); startingRow++) {
+				for (int startingColumn = firstCellRef.getCol() + 1; startingColumn <= finalCellRef
+						.getCol(); startingColumn++) {
+					Cell c = s.getRow(startingRow).getCell(startingColumn);
+					if (c == null) {
+						deleteRow = true;
+					} else {
+						deleteRow = false;
+						break;
+					}
+				}
+				if (deleteRow) {
+
+					for (Cell del : s.getRow(startingRow)) {
+						del.setCellType(CellType.BLANK);
+						// TODO: Shiftare
+						// s.shiftRows(s.getRow(startingRow).getRowNum()-1,
+						// s.getRow(startingRow).getRowNum(), 1);
+					}
+				}
+			}
+		}
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -64,9 +94,10 @@ public class ClearCellsDemo {
 		PoiTransformer transformer = PoiTransformer.createTransformer(wb);
 		System.out.println(transformer.getCommentedCells().toString());
 		AreaBuilder areaBuilder = new XlsCommentAreaBuilder(transformer, false);
-		List<Area> xlsAreaList = areaBuilder.build();
+		List xlsAreaList = areaBuilder.build();
 		System.out.println(xlsAreaList.get(0).toString());
 		writeDown(wb, xlsAreaList);
+		checkValues(wb, xlsAreaList);
 		wb.write(out);
 		wb.close();
 		out.close();
