@@ -14,7 +14,6 @@ import org.jxls.util.JxlsHelper;
 
 import com.smeup.test.SimpleGridObject;
 
-import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*
@@ -22,52 +21,41 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
  * Xml potendo così decidere quali colonne
  * mettere.
  * 
- * Ora con due grid di due file xml
+ * Ora con le grid di due file xml
  * diversi
+ *
  */
 
 public class ColonnaPerColonna {
 
 	/*
-	 * Mette nel context la grid
-	 * e ciascuna colonna di cui
-	 * è composta
+	 * Mette nel context la grid e ciascuna colonna di cui è composta
 	 */
 	public static void fillContext(Context context, SimpleGridObject s) {
-		for (int i = 0; i < s.getU().getColumnsCount(); i++) {
+		for (int i = 0; i < s.getColumnsCount(); i++) {
 			List<Object> obj = new ArrayList<>();
-			obj = Arrays.asList(s.getU().getFormattedColumnValues(s.getU().getColumnByIndex(i).getCod()));
-			System.out.println("Aggiungo la colonna numero " + (i + 1) + " della grid "+s.getName()+"...");
-			context.putVar(s.getName()+"_col" + (i + 1), obj);
-			//qualcosa tipo "s_col1", "s1_col1"
+			obj = Arrays.asList(s.getFormattedColumnValues(s.getColumnByIndex(i).getCod()));
+			System.out.println("Aggiungo la colonna numero " + (i + 1) + " della grid " + s.getName() + "...");
+			context.putVar(s.getName() + "_col" + (i + 1), obj);
+			// qualcosa tipo "s_col1", "s1_col1"
 		}
-		context.putVar(s.getName(), s.getTable());
-		context.putVar("uxo_"+s.getName(), s.getU());
-		//Devo per forza mettere la lista di colonne come un Array, in quanto dentro jxls non posso convertirlo
-		context.putVar(s.getName()+"_columns", Arrays.asList(s.getU().getColumns()));
+		context.putVar(s.getName(), Arrays.asList(s.getColumns()));
 		System.out.println("--Context riempito--\n");
 	}
 
 	public static void main(String[] args) throws IOException {
 
 		// Creazione tabella
-		
-		/*
-		 * Semplificato:
-		 * Document d = UIXmlUtilities.buildDocumentFromXmlFile("path");
-		 * UIGridXmlObject u = new UIGridXmlObject(d);
-		 * SimpleGridObject s = new SimpleGridObject(u);
-		 */
 		SimpleGridObject s = new SimpleGridObject(
-				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml")));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml"));
 		s.setName("s");
 		SimpleGridObject s1 = new SimpleGridObject(
-				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml")));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml"));
 		s1.setName("s1");
 		SimpleGridObject s2 = new SimpleGridObject(
-				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml")));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml"));
 		s2.setName("s2");
-		
+
 		// Elaborazione template
 		System.out.println("Procedo all'elaborazione del foglio Excel...");
 		InputStream in = new FileInputStream("src/main/resources/excel/cpc_template.xlsx");
@@ -76,7 +64,7 @@ public class ColonnaPerColonna {
 		fillContext(context, s);
 		fillContext(context, s1);
 		fillContext(context, s2);
-		
+
 		JxlsHelper.getInstance().processTemplate(in, out, context);
 
 		// Chiusura stream

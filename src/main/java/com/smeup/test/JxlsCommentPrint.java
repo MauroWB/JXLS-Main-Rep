@@ -21,7 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
-/*
+/**
  * Crea e applica un commento a
  * una cella che presenta un testo
  * specifico.

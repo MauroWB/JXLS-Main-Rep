@@ -10,7 +10,6 @@ import org.dom4j.Document;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
-import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*
@@ -22,10 +21,8 @@ public class Totale {
 		System.out.println("Inizio...");
 		Document d = UIXmlUtilities
 				.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml");
-		UIGridXmlObject u = new UIGridXmlObject(d);
 		System.out.println("Documento letto");
-		SimpleGridObject sgo = new SimpleGridObject(u);
-		sgo.fillTableByRow();
+		SimpleGridObject sgo = new SimpleGridObject(d);
 
 		// Elaborazione template
 		System.out.println("Procedo all'elaborazione del foglio Excel...");

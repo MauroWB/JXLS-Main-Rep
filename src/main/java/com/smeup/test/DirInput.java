@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*
@@ -21,8 +20,7 @@ public class DirInput {
 		List<SimpleGridObject> l = new ArrayList<>();
 		int cont = 1;
 		for (File file : dir.listFiles()) {
-			SimpleGridObject s = new SimpleGridObject(
-					new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(file)));
+			SimpleGridObject s = new SimpleGridObject(UIXmlUtilities.buildDocumentFromXmlFile(file));
 			s.setName("s" + cont);
 			l.add(s);
 			cont++;

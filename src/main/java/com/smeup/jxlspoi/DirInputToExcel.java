@@ -24,7 +24,6 @@ import org.jxls.util.JxlsHelper;
 
 import com.smeup.test.SimpleGridObject;
 
-import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*
@@ -83,20 +82,19 @@ public class DirInputToExcel {
 		// contatore per dare un nome a ciascuna variabile tipo "s1"
 		int cont = 1;
 		for (File f : dir.listFiles()) {
-			SimpleGridObject s = new SimpleGridObject(new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f)));
+			SimpleGridObject s = new SimpleGridObject(UIXmlUtilities.buildDocumentFromXmlFile(f));
 			s.setName("s" + cont);
 			System.out.println(s.getName());
 			// mette le colonne
-			for (int i = 0; i < s.getU().getColumnsCount(); i++) {
+			for (int i = 0; i < s.getColumnsCount(); i++) {
 				List<Object> obj = new ArrayList<>();
-				obj = Arrays.asList(s.getU().getFormattedColumnValues(s.getU().getColumnByIndex(i).getCod()));
+				obj = Arrays.asList(s.getFormattedColumnValues(s.getColumnByIndex(i).getCod()));
 				context.putVar(s.getName() + "_col" + (i + 1), obj);
 				// mette nel context un array con tutte le colonne
-				context.putVar(s.getName() + "_cols", Arrays.asList(s.getU().getColumns()));
+				context.putVar(s.getName() + "_cols", Arrays.asList(s.getColumns()));
 			}
 			context.putVar(s.getName(), s.getTable());
 			cont++;
-			s.printGrid(); 
 		}
 	}
 

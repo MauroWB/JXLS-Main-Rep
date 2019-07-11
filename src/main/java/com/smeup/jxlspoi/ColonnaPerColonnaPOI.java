@@ -21,7 +21,6 @@ import org.jxls.util.JxlsHelper;
 
 import com.smeup.test.SimpleGridObject;
 
-import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*
@@ -41,18 +40,18 @@ public class ColonnaPerColonnaPOI {
 
 	// Mette nel context la grid e ciascuna colonna di cui è composta
 	public static void fillContext(Context context, SimpleGridObject s) {
-		for (int i = 0; i < s.getU().getColumnsCount(); i++) {
+		for (int i = 0; i < s.getColumnsCount(); i++) {
 			List<Object> obj = new ArrayList<>();
-			obj = Arrays.asList(s.getU().getFormattedColumnValues(s.getU().getColumnByIndex(i).getCod()));
+			obj = Arrays.asList(s.getFormattedColumnValues(s.getColumnByIndex(i).getCod()));
 			System.out.println("Aggiungo la colonna numero " + (i + 1) + " della grid " + s.getName() + "...");
 			context.putVar(s.getName() + "_col" + (i + 1), obj);
 			// qualcosa tipo "s_col1", "s1_col1"
 		}
 		context.putVar(s.getName(), s.getTable());
-		context.putVar("uxo_" + s.getName(), s.getU()); //uxo inteso come UIGridXmlObject
+		context.putVar("uxo_" + s.getName(), s); // uxo inteso come UIGridXmlObject
 		// Devo per forza mettere la lista di colonne come un Array, in quanto dentro
 		// jxls non posso convertirlo
-		context.putVar(s.getName() + "_columns", Arrays.asList(s.getU().getColumns()));
+		context.putVar(s.getName() + "_columns", Arrays.asList(s.getColumns()));
 		System.out.println("--Context riempito--\n");
 	}
 
@@ -61,7 +60,7 @@ public class ColonnaPerColonnaPOI {
 		Scanner in = new Scanner(System.in);
 		String choice = in.next().toLowerCase().trim();
 		in.close();
-		if (!(choice.equals("y")))
+		if (!(choice.equalsIgnoreCase("y")))
 			return;
 
 		System.out.println("Inizio elaborazione colonne...");
@@ -90,13 +89,13 @@ public class ColonnaPerColonnaPOI {
 
 		// Creazione tabella
 		SimpleGridObject s = new SimpleGridObject(
-				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml")));
+				(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml")));
 		s.setName("s");
 		SimpleGridObject s1 = new SimpleGridObject(
-				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml")));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml"));
 		s1.setName("s1");
 		SimpleGridObject s2 = new SimpleGridObject(
-				new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml")));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml"));
 		s2.setName("s2");
 
 		// Elaborazione template
