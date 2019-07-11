@@ -108,7 +108,6 @@ public class ColonnaPerColonnaPOI {
 		fillContext(context, s2);
 
 		JxlsHelper.getInstance().processTemplate(in, out, context);
-
 		in.close();
 		out.close();
 
