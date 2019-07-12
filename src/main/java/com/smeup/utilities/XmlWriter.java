@@ -17,7 +17,6 @@ import org.w3c.dom.Element;
 public class XmlWriter {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String filePath = "D:\\Java\\Workspace\\ExcelFromXMLObject\\src\\main\\resources\\xml\\generatorTest\\test.xml";
 		System.out.println("Inizio");
 
