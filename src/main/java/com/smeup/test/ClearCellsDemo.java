@@ -15,7 +15,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.area.XlsArea;
 import org.jxls.builder.AreaBuilder;
 import org.jxls.builder.xls.XlsCommentAreaBuilder;
@@ -119,7 +118,8 @@ public class ClearCellsDemo {
 		final InputStream in = new FileInputStream("src/main/resources/excel/clear/clear_template.xlsx");
 		final OutputStream out = new FileOutputStream("src/main/resources/excel/clear/clear_output.xlsx");
 
-		XSSFWorkbook wb = (XSSFWorkbook) WorkbookFactory.create(in);
+		//Workbook wb = WorkbookFactory.create(in);
+		Workbook wb = WorkbookFactory.create(in);
 		PoiTransformer transformer = PoiTransformer.createTransformer(wb);
 		System.out.println(transformer.getCommentedCells().toString());
 		AreaBuilder areaBuilder = new XlsCommentAreaBuilder(transformer, false);
@@ -127,6 +127,8 @@ public class ClearCellsDemo {
 		System.out.println(xlsAreaList.get(0).toString());
 		xlsAreaList = removeAreas(wb, xlsAreaList);
 		checkValues(wb, xlsAreaList);
+		Sheet s = wb.getSheetAt(0);
+s.shiftRows(1, s.getLastRowNum(), 1);
 		wb.write(out);
 		wb.close();
 		out.close();
