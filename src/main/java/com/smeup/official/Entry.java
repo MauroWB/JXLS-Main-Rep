@@ -1,5 +1,11 @@
 package com.smeup.official;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Date;
+
 import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
 
 /**
@@ -14,17 +20,22 @@ public class Entry {
 	final String UTENTE = "$$COEN_DE";
 	final String URGENZA = "$$AIMP_DE";
 	final String PERCENTUALE = "Z§NU01";
+	final String SCADENZA = "Z§DADO";
 	
 	private String descrizione;
 	private String utente;
 	private String urgenza;
 	private int percentuale;
+	private Date data; 
 	
-	public Entry(UIGridRow ur) {
+	public Entry(UIGridRow ur) throws ParseException {
 		this.descrizione=ur.getValueForColumnCode(DESCRIZIONE);
 		this.utente = ur.getValueForColumnCode(UTENTE);
 		this.urgenza = ur.getValueForColumnCode(URGENZA);
 		this.percentuale = Integer.parseInt(ur.getValueForColumnCode(PERCENTUALE));
+		DateFormat df = new SimpleDateFormat("YYYYMMDD");
+		this.data = df.parse(ur.getValueForColumnCode(SCADENZA));
+		System.out.println(this.data);
 	}
 	
 	public int getPercentuale() {
