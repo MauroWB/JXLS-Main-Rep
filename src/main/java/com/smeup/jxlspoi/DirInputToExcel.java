@@ -24,7 +24,6 @@ import org.jxls.util.JxlsHelper;
 
 import com.smeup.test.SimpleGridObject;
 
-import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*

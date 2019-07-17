@@ -64,22 +64,22 @@ public class TicketsToExcel {
 		Font bassa = wb.createFont();
 		bassa.setColor(IndexedColors.SEA_GREEN.getIndex());
 		bassa.setBold(true);
-		bassa.setFontName("Arial");
+		bassa.setFontName("Lato UI");
 		
 		Font media = wb.createFont();
 		media.setColor(IndexedColors.LIGHT_ORANGE.getIndex());
 		media.setBold(true);
-		media.setFontName("Arial");
+		media.setFontName("Lato UI");
 		
 		Font alta = wb.createFont();
 		alta.setColor(IndexedColors.RED.getIndex());
 		alta.setBold(true);
-		alta.setFontName("Arial");
+		alta.setFontName("Lato UI");
 		
 		Font urgente = wb.createFont();
 		urgente.setColor(IndexedColors.BLACK.getIndex());
 		urgente.setBold(true);
-		urgente.setFontName("Arial");
+		urgente.setFontName("Lato UI");
 		
 		for (Sheet s : wb) {
 
@@ -91,11 +91,11 @@ public class TicketsToExcel {
 				// un NPE se ci si riferisce a una riga inesistente
 				c = s.getRow(i).getCell(startCol);
 				System.out.println(c.getAddress());
-				AreaRef urBar = new AreaRef(new CellRef(j, startCol - 1), new CellRef(j, startCol + 3));
+				AreaRef urBar = new AreaRef(new CellRef(j, startCol - 2), new CellRef(j, startCol + 3));
 				if (c.getCellType().equals(CellType.STRING)) {
 					
 					String urgenza = c.getStringCellValue();
-					for (int index = startCol - 1; index <= urBar.getLastCellRef().getCol(); index++) {
+					for (int index = startCol - 2; index <= urBar.getLastCellRef().getCol(); index++) {
 						// <= perchè getCol ritorna numCol+1
 						Cell urC = s.getRow(urBar.getFirstCellRef().getRow()).getCell(index);
 
@@ -167,11 +167,11 @@ public class TicketsToExcel {
 		System.out.println("Aggiusto le colonne...");
 		// wb = POIUtilities.fitColumns(wb, 0);
 		System.out.println("Setto i colori delle urgenze...");
-		wb = urgencyColor(wb, 1);
-		wb = urgencyColor(wb, 7);
-		wb = urgencyColor(wb, 13);
-		wb = urgencyColor(wb, 19);
-		wb = urgencyColor(wb, 25);
+		wb = urgencyColor(wb, 2);
+		wb = urgencyColor(wb, 9);
+		wb = urgencyColor(wb, 16);
+		wb = urgencyColor(wb, 23);
+		wb = urgencyColor(wb, 30);
 		wb.write(out);
 		out.close();
 	}

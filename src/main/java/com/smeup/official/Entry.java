@@ -3,8 +3,8 @@ package com.smeup.official;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.Date;
+import java.util.Locale;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
 
@@ -33,13 +33,26 @@ public class Entry {
 		this.utente = ur.getValueForColumnCode(UTENTE);
 		this.urgenza = ur.getValueForColumnCode(URGENZA);
 		this.percentuale = Integer.parseInt(ur.getValueForColumnCode(PERCENTUALE));
-		DateFormat df = new SimpleDateFormat("YYYYMMDD");
+		DateFormat df = new SimpleDateFormat("yyyymmdd", Locale.ENGLISH);
+		DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
 		this.data = df.parse(ur.getValueForColumnCode(SCADENZA));
-		System.out.println(this.data);
+		String formattedDate = targetFormat.format(data);
+		System.out.println(formattedDate);
+		Date data2 =  targetFormat.parse(formattedDate);
+		System.out.println("Please "+data2);
+		//TODO Sto provando a far funzionare le date
 	}
 	
 	public int getPercentuale() {
 		return percentuale;
+	}
+
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public void setPercentuale(int percentuale) {
