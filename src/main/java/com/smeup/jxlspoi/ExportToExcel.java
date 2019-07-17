@@ -53,7 +53,7 @@ public class ExportToExcel {
 			return;
 		}
 		OutputStream out = new FileOutputStream("src/main/resources/excel/export/export_input.xlsx");
-		UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(file));
+		UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(file, "UTF-8"));
 
 		Workbook wb = new XSSFWorkbook();
 		CreationHelper factory = wb.getCreationHelper();
