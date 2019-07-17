@@ -112,7 +112,7 @@ public class RichImg {
 
 	public static void main(String[] args) throws IOException {
 		UIGridXmlObject uxo = new UIGridXmlObject(
-				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/richimg.xml"));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/richimg.xml", "UTF-8"));
 		// Leggi matrice, scorre colonne: if colonna.ogg=J4IMG, processala con SmeIMG
 	//readMatrix(uxo);
 		applyComments(uxo);

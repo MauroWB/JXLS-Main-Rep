@@ -47,13 +47,13 @@ public class ColonnaPerColonna {
 
 		// Creazione tabella
 		SimpleGridObject s = new SimpleGridObject(
-				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml"));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml", "UTF-8"));
 		s.setName("s");
 		SimpleGridObject s1 = new SimpleGridObject(
-				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml"));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml", "UTF-8"));
 		s1.setName("s1");
 		SimpleGridObject s2 = new SimpleGridObject(
-				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml"));
+				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml", "UTF-8"));
 		s2.setName("s2");
 
 		// Elaborazione template

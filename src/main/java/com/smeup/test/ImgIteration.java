@@ -28,7 +28,7 @@ public class ImgIteration {
 		//InputStream in = new FileInputStream("src/main/resources/excel/img/imit_template.xlsx");
 		//OutputStream out = new FileOutputStream("src/main/resources/excel/img/init_output.xlsx");
 		
-		UIGridXmlObject uxo = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/img/test.xml"));
+		UIGridXmlObject uxo = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/img/test.xml", "UTF-8"));
 		Context context = new Context();
 		int cont = 1;
 		for (int i = 0; i < uxo.getColumnsCount(); i ++) {

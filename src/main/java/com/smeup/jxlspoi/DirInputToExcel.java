@@ -82,7 +82,7 @@ public class DirInputToExcel {
 		// contatore per dare un nome a ciascuna variabile tipo "s1"
 		int cont = 1;
 		for (File f : dir.listFiles()) {
-			SimpleGridObject s = new SimpleGridObject(UIXmlUtilities.buildDocumentFromXmlFile(f));
+			SimpleGridObject s = new SimpleGridObject(UIXmlUtilities.buildDocumentFromXmlFile(f, "UTF-8"));
 			s.setName("s" + cont);
 			System.out.println(s.getName());
 			// mette le colonne

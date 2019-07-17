@@ -23,7 +23,7 @@ import org.apache.poi.ss.util.CellAddress;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
-import com.smeup.test.POIUtilities;
+import com.smeup.utilities.POIUtilities;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
@@ -42,7 +42,7 @@ public class SelectiveContext {
 		File dir = new File("src/main/resources/xml/xmltest");
 		for (File f : dir.listFiles()) {
 			if (f.getName().endsWith(".xml")) {
-				UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f));
+				UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f, "UTF-8"));
 				u.setComment("u" + cont); // Commento inteso come nome della tabella.
 				// Servirà più avanti per identificare la tabella
 				System.out.println(u.getComment());

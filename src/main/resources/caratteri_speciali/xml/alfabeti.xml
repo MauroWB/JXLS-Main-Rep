@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+<UiSmeup Testo="WETEST_EXB WEB : Prototipi EXB - "> <Service DSep="," Funzione="F(EXB;B£SER_46;WRK.SCP) 1(MB;SCP_SET;WETEST_EXB) 2(;;BAS64) INPUT()" IdFun="0717143519635" NumSes="786827" Servizio="B£SER_46" TSep="." Titolo1="" Titolo2="WEB : Prototipi EXB"/>
+  <Griglia>
+    <Colonna Cod="COL01" IO="O" Lun="" Txt="Descizione Italiano"/>
+    <Colonna Cod="COL02" IO="O" Lun="" Ogg="J1B64" Txt="Descizione Cinese"/>
+    <Colonna Cod="COL03" IO="O" Lun="" Ogg="J1B64" Txt="Descizione Arabo"/>
+    <Colonna Cod="COL04" IO="O" Lun="" Ogg="J1B64" Txt="Descizione Cirillico"/>
+  </Griglia>
+  <Righe>
+    <Riga Fld="Bicicletta|WSDkvIrmiIjpm7fljaE=|2KPYqNis2K/ZitipINi52LHYqNmK2Kk=|0LDQsdC1zIHRgtC60LA="/>
+  </Righe>
+  <Setup>
+    <Program Context="B£SER_46\WRK.SCP\WETEST_EXBBAS64"/>
+  </Setup>
+  <UIPopup/> <Setup>
+    <Program Context="B£SER_46\WRK.SCP\WETEST_EXBBAS64">
+      <EXB>
+        <UserSetups Exist="No"/>
+      </EXB>
+      <UserSetups Disabled="Yes"/>
+    </Program>
+  </Setup>
+</UiSmeup>

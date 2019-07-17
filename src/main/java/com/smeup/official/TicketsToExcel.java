@@ -188,7 +188,7 @@ public class TicketsToExcel {
 	 */
 	public static Context process(Context context, File f, String nameVar) throws ParseException {
 		List<Entry> master = new ArrayList<>();
-		UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f));
+		UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f, "UTF-8"));
 		for (UIGridRow ur : u.getRows()) {
 			Entry e = new Entry(ur);
 			master.add(e);

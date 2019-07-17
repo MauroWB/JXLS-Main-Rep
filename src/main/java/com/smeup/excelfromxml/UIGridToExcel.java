@@ -40,7 +40,7 @@ public class UIGridToExcel {
 	
 	public static void main(String[] args) throws DocumentException, IOException {
 		System.out.println("Inizio...");
-		Document d = UIXmlUtilities.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml");
+		Document d = UIXmlUtilities.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml", "UTF-8");
 
 		UIGridXmlObject u = new UIGridXmlObject(d);
 		System.out.println("Documento letto");

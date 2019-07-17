@@ -23,7 +23,7 @@ public class SimpleExport {
 
 	public static void execute() throws IOException {
 		File dir = new File("src/main/resources/xml/generatorTest/test.xml");
-		UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(dir));
+		UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(dir, "UTF-8"));
 		List<List<Object>> master = new ArrayList<List<Object>>();
 		for (int i = 0; i < u.getColumnsCount(); i++) {
 			List<Object> sub = new ArrayList<Object>();

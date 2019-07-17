@@ -20,7 +20,7 @@ public class DirInput {
 		List<SimpleGridObject> l = new ArrayList<>();
 		int cont = 1;
 		for (File file : dir.listFiles()) {
-			SimpleGridObject s = new SimpleGridObject(UIXmlUtilities.buildDocumentFromXmlFile(file));
+			SimpleGridObject s = new SimpleGridObject(UIXmlUtilities.buildDocumentFromXmlFile(file, "UTF-8"));
 			s.setName("s" + cont);
 			l.add(s);
 			cont++;

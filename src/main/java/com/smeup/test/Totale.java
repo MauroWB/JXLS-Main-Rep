@@ -20,7 +20,7 @@ public class Totale {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Inizio...");
 		Document d = UIXmlUtilities
-				.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml");
+				.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml", "UTF-8");
 		System.out.println("Documento letto");
 		SimpleGridObject sgo = new SimpleGridObject(d);
 

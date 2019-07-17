@@ -1,4 +1,4 @@
-package com.smeup.test;
+package com.smeup.utilities;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
