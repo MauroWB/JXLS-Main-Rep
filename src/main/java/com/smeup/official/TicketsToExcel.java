@@ -206,7 +206,6 @@ public class TicketsToExcel {
 		final File assegnato = new File("src/main/resources/ticket/xml/ticket_assegnato.xml");
 		final File daAssegnare = new File("src/main/resources/ticket/xml/ticket_da_assegnare.xml");
 		System.out.println("Inizio...");
-
 		Context context = new Context();
 		context = loadImages(context);
 		context = process(context, daRilasciare, "daRilasciare");

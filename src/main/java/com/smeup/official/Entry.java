@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
 
@@ -26,32 +25,30 @@ public class Entry {
 	private String utente;
 	private String urgenza;
 	private int percentuale;
-	private Date data; 
+	private String data; 
 	
 	public Entry(UIGridRow ur) throws ParseException {
 		this.descrizione=ur.getValueForColumnCode(DESCRIZIONE);
 		this.utente = ur.getValueForColumnCode(UTENTE);
 		this.urgenza = ur.getValueForColumnCode(URGENZA);
 		this.percentuale = Integer.parseInt(ur.getValueForColumnCode(PERCENTUALE));
-		DateFormat df = new SimpleDateFormat("yyyymmdd", Locale.ENGLISH);
-		DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
-		this.data = df.parse(ur.getValueForColumnCode(SCADENZA));
-		String formattedDate = targetFormat.format(data);
-		System.out.println(formattedDate);
-		Date data2 =  targetFormat.parse(formattedDate);
-		System.out.println("Please "+data2);
-		//TODO Sto provando a far funzionare le date
+		final DateFormat ideal = new SimpleDateFormat("dd/MM/yyyy");
+		final DateFormat expected = new SimpleDateFormat("yyyyMMdd");
+		Date date = expected.parse(ur.getValueForColumnCode(SCADENZA));
+		this.data = ideal.format(date);
+		System.out.println(ur.getValueForColumnCode(SCADENZA)+ " | " +data);
+		
 	}
 	
 	public int getPercentuale() {
 		return percentuale;
 	}
 
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 
