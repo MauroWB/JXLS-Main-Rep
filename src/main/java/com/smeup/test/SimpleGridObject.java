@@ -19,10 +19,7 @@ public class SimpleGridObject extends UIGridXmlObject {
 
 	public void fillTable() {
 		for (int i = 0; i < getColumnsCount(); i++) {
-			List<Object> obj = new ArrayList<>();
-			obj = Arrays.asList(getFormattedColumnValues(getColumnByIndex(i).getCod()));
 			table.add(Arrays.asList(getFormattedColumnValues(getColumnByIndex(i).getCod())));
-			table.add(obj);
 		}
 			
 	}

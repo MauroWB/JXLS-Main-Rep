@@ -72,7 +72,7 @@ public class ExportToExcel {
 		wb.write(out);
 		out.close();
 		// Fine fase input, viene creato il file "export_input.xlsx"
-
+		
 		InputStream in = new FileInputStream("src/main/resources/excel/export/export_input.xlsx");
 		OutputStream os = new FileOutputStream("src/main/resources/excel/export/export_temp.xlsx");
 		Context context = new Context();

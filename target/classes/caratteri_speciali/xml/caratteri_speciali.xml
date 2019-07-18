@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+<UiSmeup Testo="WETEST_EXB WEB : Prototipi EXB - "> <Service DSep="," Funzione="F(EXB;B£SER_46;WRK.SCP) 1(MB;SCP_SET;WETEST_EXB) 2(;;MAT_003) INPUT()" IdFun="0717143347625" NumSes="786827" Servizio="B£SER_46" TSep="." Titolo1="" Titolo2="WEB : Prototipi EXB"/>
+  <Griglia>
+    <Colonna Cod="CAMPOсд" IO="A" Lun="35" Txt="CAMPO£сд"/>
+    <Colonna Cod="CAMPOсфд" IO="B" Lun="35" Txt="CAMPO/сд"/>
+    <Colonna Cod="CAMPOфсд" IO="C" Lun="35" Txt="CAMPO\сд"/>
+    <Colonna Cod="CAMPOсдф" IO="D" Lun="35" Txt="CAMPO€сд"/>
+    <Colonna Cod="CAMPOсффд" IO="O" Lun="35" Txt="CAMPO-сд"/>
+    <Colonna Cod="CAMPOффсд" IO="O" Lun="35" Txt="CAMPO_сд"/>
+    <Colonna Cod="CAMPOсдфф" IO="O" Lun="35" Txt="CAMPOèсд"/>
+    <Colonna Cod="CAMPOфсффд" IO="O" Lun="35" Txt="CAMPO§сд"/>
+    <Colonna Cod="CAMPOффсфдфф" IO="O" Lun="35" Txt="CAMPO$сд"/>
+    <Colonna Cod="CAMPOсдфффффф" IO="O" Lun="35" Txt="CAMPO°сд"/>
+  </Griglia>
+  <Righe>
+    <Riga Fld="ᶀ ᶁ ᶂ ᶃ ᶄ ᶆ ᶇ ᶈ ᶉ ᶊ ᶋ ᶌ ᶍ ᶎ ᶏ ᶐ ᶑ ᶒ ᶓ ᶔ ᶕ ᶖ ᶗ ᶘ ᶙ ᶚ ᶸ ᵯ ᵰ ᵴ ᵶ ᵹ ᵼ ᵽ ᵾ ᵿ|⅕ ⅙ ⅛ ⅔ ⅖ ⅗ ⅘ ⅜ ⅚ ⅐ ⅝ ↉ ⅓ ⅑ ⅒ ⅞/|сдфгчйкльжзхцвбнмяшертыуиопющэъё|ش  غ ظ ذ خ ث ت س ر ق ض ف ع ص ن م ل ك ي ط ح ز و ه د ج ب |汉字 漢字|CAMPO_|CAMPOè|CAMPO§|CAMPO$|CAMPO°|"/>
+  </Righe>
+  <Setup>
+    <Program Context="B£SER_46\WRK.SCP\WETEST_EXBMAT_003"/>
+  </Setup>
+  <UIPopup/> <Setup>
+    <Program Context="B£SER_46\WRK.SCP\WETEST_EXBMAT_003">
+      <EXB>
+        <UserSetups Exist="No"/>
+        <Setup SelFirst="No" ShowTotal="Yes"/>
+      </EXB> <UserSetups Disabled="Yes"/>
+      <UserSetups Disabled="Yes"/>
+    </Program>
+  </Setup>
+</UiSmeup>

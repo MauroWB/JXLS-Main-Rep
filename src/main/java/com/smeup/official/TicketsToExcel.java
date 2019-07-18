@@ -25,6 +25,7 @@ import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.jxls.util.Util;
 
+import Smeup.smec_s.utility.Counter;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
@@ -214,7 +215,6 @@ public class TicketsToExcel {
 		context = process(context, assegnato, "assegnato");
 		context = process(context, daAssegnare, "daAssegnare");
 		JxlsHelper.getInstance().processTemplate(in, out, context);
-
 		in.close();
 		out.close();
 

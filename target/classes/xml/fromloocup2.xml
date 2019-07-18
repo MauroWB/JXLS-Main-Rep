@@ -26,7 +26,7 @@
     <Colonna Cod="$_RRN" IO="H" Lun="15;0" Ogg="IDX1TASK0F" Txt="RRN"/>
   </Griglia>
   <Righe>
-    <Riga Fld="0000000072|LO|Loocup|SANCOS||C||B||20160204|Configuratore : aiutare Federico sulla definizione del protocollo aggiornamento.|PARFRA|20160204||1"/>
+    <Riga Fld="0000000072|LO|Loocup|SANCOS||C||B|JJJKKKJJJ|20160204|Configuratore : aiutare Federico sulla definizione del protocollo aggiornamento.|PARFRA|20160204||1"/>
     <Riga Fld="0000000073|WE|Webup|CASFRA||C||B||20160204|booleanButton: in mobile non esiste questo componente|PARFRA|20160204||2"/>
     <Riga Fld="0000000074|WE|Webup|MINCLA||C||M||20160301|In mobile, css da modificare:&#13;&#10;spinner (SPN)&#13;&#10;slider (SLD)&#13;&#10;radiobutton (RAD)&#13;&#10;checkboxlist (CHL)&#13;&#10;immagine (IMG)&#13;&#10;rating (RTG)&#13;&#10;range (RNG)&#13;&#10;button colore default (BTN)&#13;&#10;|PARFRA|20160204||3"/>
     <Riga Fld="0000000075|WE|Webup|CASFRA||C||B||20160210|controllare quali field non hanno il p:ajax|PARFRA|20160204||4"/>
