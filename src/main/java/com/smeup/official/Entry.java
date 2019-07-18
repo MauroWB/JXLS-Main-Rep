@@ -25,7 +25,7 @@ public class Entry {
 	private String utente;
 	private String urgenza;
 	private int percentuale;
-	private String data; 
+	private Date data; 
 	
 	public Entry(UIGridRow ur) throws ParseException {
 		this.descrizione=ur.getValueForColumnCode(DESCRIZIONE);
@@ -35,7 +35,8 @@ public class Entry {
 		final DateFormat ideal = new SimpleDateFormat("dd/MM/yyyy");
 		final DateFormat expected = new SimpleDateFormat("yyyyMMdd");
 		Date date = expected.parse(ur.getValueForColumnCode(SCADENZA));
-		this.data = ideal.format(date);
+		//this.data = ideal.format(date);
+		this.data = ideal.parse(ideal.format(date)); // da togliere in caso
 		System.out.println(ur.getValueForColumnCode(SCADENZA)+ " | " +data);
 		
 	}
@@ -44,11 +45,11 @@ public class Entry {
 		return percentuale;
 	}
 
-	public String getData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
 

@@ -128,7 +128,7 @@ public class ClearCellsDemo {
 		xlsAreaList = removeAreas(wb, xlsAreaList);
 		checkValues(wb, xlsAreaList);
 		Sheet s = wb.getSheetAt(0);
-s.shiftRows(1, s.getLastRowNum(), 1);
+		s.shiftRows(3, 4, 1);
 		wb.write(out);
 		wb.close();
 		out.close();

@@ -198,6 +198,7 @@ public class TicketsToExcel {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
+		
 		final InputStream in = new FileInputStream("src/main/resources/ticket/excel/ticket_template.xlsx");
 		final OutputStream out = new FileOutputStream("src/main/resources/ticket/excel/ticket_input.xlsx");
 		final File daRilasciare = new File("src/main/resources/ticket/xml/ticket_da_rilasciare.xml");
@@ -205,6 +206,8 @@ public class TicketsToExcel {
 		final File inCorso = new File("src/main/resources/ticket/xml/ticket_in_corso.xml");
 		final File assegnato = new File("src/main/resources/ticket/xml/ticket_assegnato.xml");
 		final File daAssegnare = new File("src/main/resources/ticket/xml/ticket_da_assegnare.xml");
+		
+		
 		System.out.println("Inizio...");
 		Context context = new Context();
 		context = loadImages(context);
