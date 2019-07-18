@@ -8,18 +8,18 @@ import java.util.Date;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
 
 /**
- * Classe che facilita il riferimento agli attributi di una
- * riga (Xml Loocup) in Jxls
- * @author JohnSmith
+ * Semplice classe che facilita il riferimento agli attributi di una
+ * riga (Xml Loocup) in Jxls.
  * 
+ * @author JohnSmith
  */
 
 public class Entry {
-	final String DESCRIZIONE = "ZÂ§AOBB";
+	final String DESCRIZIONE = "Z§AOBB";
 	final String UTENTE = "$$COEN_DE";
 	final String URGENZA = "$$AIMP_DE";
-	final String PERCENTUALE = "ZÂ§NU01";
-	final String SCADENZA = "ZÂ§DADO";
+	final String PERCENTUALE = "Z§NU01";
+	final String SCADENZA = "Z§DADO";
 	
 	private String descrizione;
 	private String utente;

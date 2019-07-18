@@ -25,7 +25,6 @@ import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.jxls.util.Util;
 
-import Smeup.smec_s.utility.Counter;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
