@@ -46,7 +46,7 @@ public class TicketsToExcel {
 
 		context.putVar("static_image", imageBytes);
 		context.putVar("user_ph", userBytes);
-
+		
 		userIS.close();
 		imgInputStream.close();
 		return context;
