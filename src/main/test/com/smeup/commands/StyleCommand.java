@@ -34,18 +34,23 @@ public class StyleCommand extends AbstractCommand {
 		// boolean border;
 		boolean bold = false;
 		boolean stop = false; // Se stop è true lo stile è stato trovato e non occorre proseguire i cicli.
-
+		
+		
 		Size resultSize = area.applyAt(cellRef, context);
 		PoiTransformer transformer = (PoiTransformer) area.getTransformer();
 		Workbook wb = transformer.getWorkbook();
 
 		Sheet main = wb.getSheet(cellRef.getSheetName());
 		Sheet settings = wb.getSheet("Settings");
-
+		
 		if (resultSize.equals(Size.ZERO_SIZE) || styleName == null)
 			return resultSize;
-
+		
+		// main = POIUtilities.shiftRows(main, cellRef.getRow(), resultSize.getHeight());
+		// Non funziona
+		
 		styleName = styleName.trim().toUpperCase();
+		
 		int lastRow = cellRef.getRow() + resultSize.getHeight() - 1;
 		int lastCol = cellRef.getCol() + resultSize.getWidth() - 1;
 		for (int row = cellRef.getRow(); row <= lastRow; row++) {
@@ -55,7 +60,7 @@ public class StyleCommand extends AbstractCommand {
 					main.createRow(row);
 				Cell c = main.getRow(row).getCell(col, MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
-				for (Row iR : settings)
+				for (Row iR : settings) 
 					for (Cell iC : iR) {
 						{
 							if (iC.getCellType().equals(CellType.STRING)
@@ -70,8 +75,10 @@ public class StyleCommand extends AbstractCommand {
 								if (iR.getCell(iC.getColumnIndex() + 5).getCellType().equals(CellType.STRING))
 									fillType = iR.getCell(iC.getColumnIndex() + 5).getStringCellValue();
 
-								if (iR.getCell(iC.getColumnIndex() + 4).getCellType().equals(CellType.BOOLEAN))
+								if (iR.getCell(iC.getColumnIndex() + 4).getCellType().equals(CellType.BOOLEAN)) { 
 									bold = iR.getCell(iC.getColumnIndex() + 4).getBooleanCellValue();
+									System.out.println(bold);
+								}
 
 								stop = true;
 								break;
@@ -86,6 +93,7 @@ public class StyleCommand extends AbstractCommand {
 
 				Font f = wb.createFont();
 				f.setBold(bold);
+				cs.setFont(f);
 
 				// Gestione errori per evitare che l'input sbagliato dell'utente interrompa
 				// l'esecuzione del programma.

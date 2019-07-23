@@ -12,7 +12,7 @@ import org.jxls.transform.poi.PoiTransformer;
 import org.jxls.util.Util;
 
 /**
- * Riempie le celle di una Jx Area con la stringa "Test". Utilizzo:
+ * Riempie le celle di una Jx Area con la stringa "Iterazione numero " + numero dell'iterazione. Utilizzo:
  * jx:smeupTest(lastCell="" condition="")
  *
  * @author JohnSmith
