@@ -53,13 +53,14 @@ public class StyleCommand extends AbstractCommand {
 		
 		int lastRow = cellRef.getRow() + resultSize.getHeight() - 1;
 		int lastCol = cellRef.getCol() + resultSize.getWidth() - 1;
+		// "-1" Perché i valori di sopra non sono 0 based
 		for (int row = cellRef.getRow(); row <= lastRow; row++) {
 			for (int col = cellRef.getCol(); col <= lastCol; col++) {
 
 				if (main.getRow(row) == null)
 					main.createRow(row);
 				Cell c = main.getRow(row).getCell(col, MissingCellPolicy.CREATE_NULL_AS_BLANK);
-
+				
 				for (Row iR : settings) 
 					for (Cell iC : iR) {
 						{
@@ -67,7 +68,7 @@ public class StyleCommand extends AbstractCommand {
 									&& styleName.equals(iC.getStringCellValue().trim().toUpperCase())) {
 
 								// Controllo correttezza
-								// TODO: Questo codice non si può vedere
+								// TODO: Rifare questo codice che non si può vedere
 								
 								if (iR.getCell(iC.getColumnIndex() + 2).getCellType().equals(CellType.STRING))
 									color = iR.getCell(iC.getColumnIndex() + 2).getStringCellValue();
@@ -79,7 +80,6 @@ public class StyleCommand extends AbstractCommand {
 									bold = iR.getCell(iC.getColumnIndex() + 4).getBooleanCellValue();
 									System.out.println(bold);
 								}
-
 								stop = true;
 								break;
 							}

@@ -44,7 +44,7 @@ public class TestCustomCommand extends AbstractCommand {
 			boolean doIt = Util.isConditionTrue(getTransformationConfig().getExpressionEvaluator(), condition, context);
 			if (doIt) {
 				for (int row = cellRef.getRow(); row <= endRow; row++) {
-					for (int col = cellRef.getCol(); col < endCol; col++) {
+					for (int col = cellRef.getCol(); col <= endCol; col++) {
 						if (s.getRow(row) == null)
 							s.createRow(row);
 						if (s.getRow(row).getCell(col) == null)
