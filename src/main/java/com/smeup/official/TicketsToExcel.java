@@ -167,11 +167,6 @@ public class TicketsToExcel {
 		System.out.println("Aggiusto le colonne...");
 		// wb = POIUtilities.fitColumns(wb, 0);
 		System.out.println("Setto i colori delle urgenze...");
-		wb = urgencyColor(wb, 2);
-		wb = urgencyColor(wb, 9);
-		wb = urgencyColor(wb, 16);
-		wb = urgencyColor(wb, 23);
-		wb = urgencyColor(wb, 30);
 		wb.write(out);
 		out.close();
 	}
@@ -200,13 +195,12 @@ public class TicketsToExcel {
 	public static void main(String[] args) throws IOException, ParseException {
 		
 		final InputStream in = new FileInputStream("src/main/resources/ticket/excel/ticket_template.xlsx");
-		final OutputStream out = new FileOutputStream("src/main/resources/ticket/excel/ticket_input.xlsx");
+		final OutputStream out = new FileOutputStream("src/main/resources/ticket/excel/ticket_output.xlsx");
 		final File daRilasciare = new File("src/main/resources/ticket/xml/ticket_da_rilasciare.xml");
 		final File daTestare = new File("src/main/resources/ticket/xml/ticket_da_testare.xml");
 		final File inCorso = new File("src/main/resources/ticket/xml/ticket_in_corso.xml");
 		final File assegnato = new File("src/main/resources/ticket/xml/ticket_assegnato.xml");
 		final File daAssegnare = new File("src/main/resources/ticket/xml/ticket_da_assegnare.xml");
-		
 		
 		System.out.println("Inizio...");
 		Context context = new Context();
