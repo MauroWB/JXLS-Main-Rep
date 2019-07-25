@@ -72,7 +72,7 @@ public class ExportToExcel {
 		wb.write(out);
 		out.close();
 		// Fine fase input, viene creato il file "export_input.xlsx"
-		
+
 		InputStream in = new FileInputStream("src/main/resources/excel/export/export_input.xlsx");
 		OutputStream os = new FileOutputStream("src/main/resources/excel/export/export_temp.xlsx");
 		Context context = new Context();
@@ -85,8 +85,8 @@ public class ExportToExcel {
 			context.putVar("u1_col" + col, sub);
 			col++;
 		}
-		
-		CellAddress last = new CellAddress(0,0);
+
+		CellAddress last = new CellAddress(0, 0);
 
 		for (int i = 0; i < u.getColumnsCount(); i++) {
 			r1.createCell(i);
@@ -95,15 +95,13 @@ public class ExportToExcel {
 
 			ClientAnchor anchor = factory.createClientAnchor();
 			Comment comment = drawing.createCellComment(anchor);
-			comment.setString(factory.createRichTextString("jx:each(lastCell='" + m.getAddress() 
-				+ "' items='u1_col" + (i + 1) 
-				+ "' var='u1_col" + (i + 1) 
-				+ "' direction='DOWN')"));
+			comment.setString(factory.createRichTextString("jx:each(lastCell='" + m.getAddress() + "' items='u1_col"
+					+ (i + 1) + "' var='u1_col" + (i + 1) + "' direction='DOWN')"));
 			comment.setAuthor("Me");
 
 			m.setCellComment(comment);
 			System.out.println("Commento applicato.");
-			
+
 			if (last.getRow() < m.getRowIndex()) {
 				int temp = last.getColumn();
 				// Purtroppo non si possono settare singolarmente Row e Column
