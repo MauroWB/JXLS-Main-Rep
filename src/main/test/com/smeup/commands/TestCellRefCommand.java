@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellUtil;
 import org.jxls.area.Area;
 import org.jxls.command.AbstractCommand;
-import org.jxls.command.CellRefGenerator;
 import org.jxls.command.Command;
 import org.jxls.common.CellRef;
 import org.jxls.common.Context;
@@ -42,7 +41,6 @@ public class TestCellRefCommand extends AbstractCommand {
 				Cell c = s.getRow(row).getCell(col, MissingCellPolicy.CREATE_NULL_AS_BLANK);
 				CellUtil.setCellStyleProperty(c, CellUtil.BORDER_LEFT, true);
 			}
-		
 		return resultSize;
 	}
 	
