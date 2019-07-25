@@ -30,16 +30,17 @@ import org.jxls.transform.poi.PoiTransformer;
  *
  */
 public class ColorDemoCommand extends AbstractCommand {
-	public final static String COMMAND_NAME = "color";
 	
-	Area area;
-	String fillType;
+	public final static String COMMAND_NAME = "color";
+	private Area area;
+	private String fillType;
 
 	public String getName() {
 		return "color";
 	}
 
 	public Size applyAt(CellRef cellRef, Context context) {
+		
 		Size resultSize = area.applyAt(cellRef, context);
 		PoiTransformer transformer = (PoiTransformer) area.getTransformer();
 		Workbook wb = transformer.getWorkbook();
@@ -49,8 +50,8 @@ public class ColorDemoCommand extends AbstractCommand {
 		Sheet s = wb.getSheet(cellRef.getSheetName());
 		if (resultSize.equals(Size.ZERO_SIZE))
 			return resultSize;
-		int endRow = cellRef.getRow() + resultSize.getHeight() - 1;
-		int endCol = cellRef.getCol() + resultSize.getWidth() - 1;
+		int endRow = cellRef.getRow() + resultSize.getHeight()-1;
+		int endCol = cellRef.getCol() + resultSize.getWidth()-1;
 		// Quindi se nel commento non è stato inserito il parametro "fillType"
 		if (fillType == null)
 			this.fillType = "FULL";

@@ -21,8 +21,8 @@ import org.jxls.transform.poi.PoiTransformer;
 public class StyleCommand extends AbstractCommand {
 
 	public static final String COMMAND_NAME = "style";
-	String styleName;
-	Area area;
+	private String styleName;
+	private Area area;
 
 	public String getName() {
 		return "style";
@@ -50,11 +50,10 @@ public class StyleCommand extends AbstractCommand {
 		// Non funziona
 		
 		styleName = styleName.trim().toUpperCase();
-		
 		CellStyle cs = wb.createCellStyle();
 		
-		int lastRow = cellRef.getRow() + resultSize.getHeight() - 1;
-		int lastCol = cellRef.getCol() + resultSize.getWidth() - 1;
+		int lastRow = cellRef.getRow() + resultSize.getHeight()-1;
+		int lastCol = cellRef.getCol() + resultSize.getWidth()-1;
 		// "-1" Perché i valori di sopra non sono 0 based
 		for (int row = cellRef.getRow(); row <= lastRow; row++) {
 			for (int col = cellRef.getCol(); col <= lastCol; col++) {
@@ -93,7 +92,7 @@ public class StyleCommand extends AbstractCommand {
 									System.out.println("Foreground Color non riconosciuto. Resetto a WHITE...");
 									cs.setFillForegroundColor(IndexedColors.WHITE.index);
 								}
-
+								
 								try {
 									cs.setFillPattern(FillPatternType.valueOf(fillType));
 								} catch (Exception e) {

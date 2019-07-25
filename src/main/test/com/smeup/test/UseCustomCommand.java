@@ -18,6 +18,7 @@ import org.jxls.util.TransformerFactory;
 import com.smeup.commands.ColorDemoCommand;
 import com.smeup.commands.FunCommand;
 import com.smeup.commands.StyleCommand;
+import com.smeup.commands.TemplateCommand;
 import com.smeup.commands.TestCustomCommand;
 
 
@@ -29,14 +30,15 @@ public class UseCustomCommand {
 		
 		Transformer transformer = TransformerFactory.createTransformer(in, out);
 		AreaBuilder areaBuilder = new XlsCommentAreaBuilder(transformer);
-		
 		XlsCommentAreaBuilder.addCommandMapping("smeuptest", TestCustomCommand.class);
 		XlsCommentAreaBuilder.addCommandMapping(ColorDemoCommand.COMMAND_NAME, ColorDemoCommand.class);
 		XlsCommentAreaBuilder.addCommandMapping(FunCommand.COMMAND_NAME, FunCommand.class);
 		XlsCommentAreaBuilder.addCommandMapping(StyleCommand.COMMAND_NAME, StyleCommand.class);
+		XlsCommentAreaBuilder.addCommandMapping(TemplateCommand.COMMAND_NAME, TemplateCommand.class);
 		List<Area> xlsAreaList = areaBuilder.build();
 		Area xlsArea = xlsAreaList.get(0);
 		Context context = new Context();
+		
 		context.putVar("x", 5);
 		xlsArea.applyAt(new CellRef("Sheet1!A1"), context);
 		transformer.write();

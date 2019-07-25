@@ -11,9 +11,9 @@ public class FunCommand extends AbstractCommand {
 	
 	public final static String COMMAND_NAME = "fun";
 	
-	String name;
-	String fun;
-	Area area;
+	private String name;
+	private String fun;
+	private Area area;
 	
 	public String getName() {
 		return "fun";
