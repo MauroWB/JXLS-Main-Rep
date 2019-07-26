@@ -26,7 +26,19 @@ import org.jxls.common.AreaRef;
 import org.jxls.common.CellRef;
 import org.jxls.common.Context;
 
+/**
+ * Contiene una serie di utilities per l'elaborazione di un workbook Excel.
+ * @author JohnSmith
+ *
+ */
 public class POIUtilities {
+	
+	/**
+	 * Fa il ridimensionamento di tutte le colonne dei fogli del Workbook.
+	 * 
+	 * @param wb - Il Workbook su cui agire.
+	 * @return il Workbook elaborato.
+	 */
 	public static Workbook fitColumns(Workbook wb) {
 		for (Sheet s : wb)
 			for (Row r : s)
@@ -38,8 +50,10 @@ public class POIUtilities {
 	/**
 	 * In base al contenuto della cella "Urgenza", cambia il colore della barra di
 	 * ciascuna entry.
+	 *
+	 * @deprecated Questo metodo è stato progettato specificamente per com.smeup.official.TicketsToExcel. Deve essere generalizzato.
 	 * 
-	 * @param wb - Workbook su cui agire.
+	 * @param wb - Il Workbook su cui agire.
 	 * @return Workbook con colori relativi a ciascun campo urgenza.
 	 */
 	public static Workbook urgencyColor(Workbook wb, int startCol) {
@@ -134,7 +148,7 @@ public class POIUtilities {
 		}
 		return wb;
 	}
-
+	
 	/**
 	 * Ridimensiona la lunghezza delle colonne, escludendo la colonna con il numero
 	 * indicato.
@@ -256,7 +270,8 @@ public class POIUtilities {
 					if (c.getCellType().equals(CellType.STRING)) {
 						String value = c.getStringCellValue();
 						File f = new File(value);
-						if (f.exists() && value.endsWith(".png")) { //TODO Estendere il supporto di formati e migliorare il controllo
+						
+						if (f.exists() && !f.isDirectory() && value.endsWith(".png")) { //TODO Estendere il supporto di formati e migliorare il controllo
 							InputStream imgInputStream = new FileInputStream(value);
 							int imgIndex = wb.addPicture(IOUtils.toByteArray(imgInputStream),
 									Workbook.PICTURE_TYPE_PNG);
