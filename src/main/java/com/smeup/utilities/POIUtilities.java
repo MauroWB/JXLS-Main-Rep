@@ -282,7 +282,7 @@ public class POIUtilities {
 							anchor.setRow1(c.getRowIndex());
 							anchor.setRow2(c.getRowIndex()+1);
 							drawing.createPicture(anchor, imgIndex);
-							c.setBlank();
+							c.setCellType(CellType.BLANK);
 						}
 					}
 				}
