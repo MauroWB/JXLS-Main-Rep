@@ -44,7 +44,7 @@ public class RichImg {
 		out.close();
 		Workbook wbF = WorkbookFactory.create(new FileInputStream("src/main/resources/excel/img/richimg_output.xlsx"));
 		POIUtilities.insertImages(wbF);
-		wbF.write(new FileOutputStream("src/main/resources/excel/img/rich.xlsx"));
+		wbF.write(new FileOutputStream("src/main/resources/excel/img/richimg_final.xlsx"));
 		System.out.println("Fine");
 	}
 

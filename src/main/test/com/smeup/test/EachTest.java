@@ -35,7 +35,6 @@ public class EachTest {
 		
 		context.putVar("sub", sub);
 		JxlsHelper.getInstance().processTemplate(in, out, context);
-		
 		in.close();
 		out.close();
 	}
