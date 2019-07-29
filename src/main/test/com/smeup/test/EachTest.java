@@ -16,6 +16,11 @@ import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
+/**
+ * Classe per studiare il comportamento del comando Each e l'idoneità al progetto.
+ * @author JohnSmith
+ *
+ */
 public class EachTest {
 
 	public static void main(String[] args) throws IOException {

@@ -25,6 +25,7 @@ import org.jxls.util.JxlsHelper;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
+import Smeup.smeui.uiutilities.UIFunctionDecoder;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*
@@ -48,7 +49,7 @@ public class ExportToExcel {
 				exists = true;
 				break;
 			}
-		if (exists == false) {
+		if (!exists) {
 			System.out.println("Nessun file con estensione .xml trovato");
 			return;
 		}
@@ -68,7 +69,7 @@ public class ExportToExcel {
 		c.setCellValue("Area");
 		// Alla prima cella del primo foglio viene impostato il valore "Area".
 		// Serve questa fase?
-
+		
 		wb.write(out);
 		out.close();
 		// Fine fase input, viene creato il file "export_input.xlsx"

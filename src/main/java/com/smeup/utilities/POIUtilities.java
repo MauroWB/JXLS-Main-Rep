@@ -26,13 +26,21 @@ import org.jxls.common.AreaRef;
 import org.jxls.common.CellRef;
 import org.jxls.common.Context;
 
+import com.smeup.test.SimpleGridObject;
+
+import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
+import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
+import Smeup.smeui.uiutilities.UIFunctionDecoder;
+import Smeup.smeui.uiutilities.UIXmlUtilities;
+
 /**
  * Contiene una serie di utilities per l'elaborazione di un workbook Excel.
+ * 
  * @author JohnSmith
  *
  */
 public class POIUtilities {
-	
+
 	/**
 	 * Fa il ridimensionamento di tutte le colonne dei fogli del Workbook.
 	 * 
@@ -51,7 +59,8 @@ public class POIUtilities {
 	 * In base al contenuto della cella "Urgenza", cambia il colore della barra di
 	 * ciascuna entry.
 	 *
-	 * @deprecated Questo metodo è stato progettato specificamente per com.smeup.official.TicketsToExcel. Deve essere generalizzato.
+	 * @deprecated Questo metodo è stato progettato specificamente per
+	 *             com.smeup.official.TicketsToExcel. Deve essere generalizzato.
 	 * 
 	 * @param wb - Il Workbook su cui agire.
 	 * @return Workbook con colori relativi a ciascun campo urgenza.
@@ -148,7 +157,7 @@ public class POIUtilities {
 		}
 		return wb;
 	}
-	
+
 	/**
 	 * Ridimensiona la lunghezza delle colonne, escludendo la colonna con il numero
 	 * indicato.
@@ -270,17 +279,19 @@ public class POIUtilities {
 					if (c.getCellType().equals(CellType.STRING)) {
 						String value = c.getStringCellValue();
 						File f = new File(value);
-						
-						if (f.exists() && !f.isDirectory() && value.endsWith(".png")) { //TODO Estendere il supporto di formati e migliorare il controllo
+
+						if (f.exists() && !f.isDirectory() && value.endsWith(".png")) { // TODO Estendere il supporto di
+																						// formati e migliorare il
+																						// controllo
 							InputStream imgInputStream = new FileInputStream(value);
 							int imgIndex = wb.addPicture(IOUtils.toByteArray(imgInputStream),
 									Workbook.PICTURE_TYPE_PNG);
 							ClientAnchor anchor = factory.createClientAnchor();
 							anchor.setAnchorType(AnchorType.MOVE_AND_RESIZE);
 							anchor.setCol1(c.getColumnIndex());
-							anchor.setCol2(c.getColumnIndex()+1); // Si "ancora" all'inizio della cella indicata
+							anchor.setCol2(c.getColumnIndex() + 1); // Si "ancora" all'inizio della cella indicata
 							anchor.setRow1(c.getRowIndex());
-							anchor.setRow2(c.getRowIndex()+1);
+							anchor.setRow2(c.getRowIndex() + 1);
 							drawing.createPicture(anchor, imgIndex);
 							c.setCellType(CellType.BLANK);
 						}
@@ -289,5 +300,56 @@ public class POIUtilities {
 			}
 		}
 		return wb;
+	}
+
+	/**
+	 * Cerca all'interno di un foglio tutte le FUN o i loro risultati in formato
+	 * .xml. Una volta trovati, inserisce nel context l'UIGridXmlObject (castato a
+	 * SimpleGridObject) di ciascun file.
+	 * 
+	 * @param context - Il Context in cui inserire gli UIGridXmlObject.
+	 * @param s       - Il foglio in cui cercare le FUN.
+	 * @return il context con gli UIGridXmlObject inseriti.
+	 */
+	public static Context cercaFun(Context context, Sheet s) {
+		// Sheet s = wb.getSheet("FUN");
+		int funC = 0; // Contatore di Fun
+		int rowC = 0; // Contatore di righe dell'UIGridXmlObject
+		int colC = 0; // Contatore di colonne dell'UIGridXmlObject
+		for (Row r : s) {
+			for (Cell c : r) {
+				if (c.getCellType().equals(CellType.STRING)) {
+					String value = c.getStringCellValue();
+					if (!UIFunctionDecoder.isValidSyntaxFormat(value)) {
+						// Non è una FUN, allora è un percorso?
+						if (new File(value).isFile() && value.endsWith(".xml")) {
+							// È un percorso e porta a un file
+							rowC = 0;
+							colC = 0;
+							funC++;
+							SimpleGridObject uxo = new SimpleGridObject(
+									UIXmlUtilities.buildDocumentFromXmlFile(value, "UTF-8"));
+							String title = "f";
+							title += funC < 10 ? "0" + funC : "" + funC;
+							context.putVar(title, uxo);
+							System.out.println("Inserito " + title);
+							for (UIGridRow ur : uxo.getRows()) {
+								rowC++;
+								String rowTitle = rowC < 10 ? "_row0" + rowC : "_row" + rowC;
+								context.putVar(title + rowTitle, ur);
+							}
+							for (UIGridColumn uc : uxo.getColumns()) {
+								colC++;
+								String colTitle = colC < 10 ? "_col0" + colC : "_col" + colC;
+								context.putVar(title + colTitle, uxo.getFormattedColumnValuesJXLS(uc.getCod()));
+							}
+						}
+					} else {
+						System.out.println("Fun valida " + c.getStringCellValue());
+					}
+				}
+			}
+		}
+		return context;
 	}
 }
