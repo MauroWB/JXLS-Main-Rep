@@ -10,7 +10,7 @@ import org.dom4j.Document;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
-import com.smeup.test.SimpleGridObject;
+import com.smeup.test.ExtendedUIGridXmlObject;
 
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
@@ -20,7 +20,7 @@ public class UIGridXmlObjectToExcel {
 		Document d = UIXmlUtilities
 				.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup2.xml", "UTF-8");
 		System.out.println("Documento letto");
-		SimpleGridObject grid = new SimpleGridObject(d);
+		ExtendedUIGridXmlObject grid = new ExtendedUIGridXmlObject(d);
 
 		FileInputStream is = new FileInputStream("src/main/resources/excel/readloocup_template.xlsx");
 		OutputStream os = new FileOutputStream("src/main/resources/excel/readloocup_output.xlsx");

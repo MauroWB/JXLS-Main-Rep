@@ -12,7 +12,7 @@ import java.util.List;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
-import com.smeup.test.SimpleGridObject;
+import com.smeup.test.ExtendedUIGridXmlObject;
 
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
@@ -31,7 +31,7 @@ public class ColonnaPerColonna {
 	/*
 	 * Mette nel context la grid e ciascuna colonna di cui è composta
 	 */
-	public static void fillContext(Context context, SimpleGridObject s) {
+	public static void fillContext(Context context, ExtendedUIGridXmlObject s) {
 		for (int i = 0; i < s.getColumnsCount(); i++) {
 			List<Object> obj = new ArrayList<>();
 			obj = Arrays.asList(s.getFormattedColumnValues(s.getColumnByIndex(i).getCod()));
@@ -46,13 +46,13 @@ public class ColonnaPerColonna {
 	public static void main(String[] args) throws IOException {
 
 		// Creazione tabella
-		SimpleGridObject s = new SimpleGridObject(
+		ExtendedUIGridXmlObject s = new ExtendedUIGridXmlObject(
 				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml", "UTF-8"));
 		s.setName("s");
-		SimpleGridObject s1 = new SimpleGridObject(
+		ExtendedUIGridXmlObject s1 = new ExtendedUIGridXmlObject(
 				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml", "UTF-8"));
 		s1.setName("s1");
-		SimpleGridObject s2 = new SimpleGridObject(
+		ExtendedUIGridXmlObject s2 = new ExtendedUIGridXmlObject(
 				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml", "UTF-8"));
 		s2.setName("s2");
 

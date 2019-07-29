@@ -32,7 +32,7 @@ public class UseCustomCommand {
 		final InputStream in = new FileInputStream("src/main/resources/custom_commands/excel/command_template.xlsx");
 		final OutputStream out = new FileOutputStream("src/main/resources/custom_commands/excel/command_output.xlsx");
 		final Workbook wb = WorkbookFactory.create(new File("src/main/resources/custom_commands/excel/command_template.xlsx"));
-		SimpleGridObject sgo = new SimpleGridObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/richimg.xml"));
+		ExtendedUIGridXmlObject sgo = new ExtendedUIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/richimg.xml"));
 		
 		
 		Transformer transformer = TransformerFactory.createTransformer(in, out);
@@ -51,9 +51,8 @@ public class UseCustomCommand {
 		 * Se si aggiungono dei comandi custom, occorre applicare manualmente ciascuna XlsArea a cella e foglio
 		 * a cui appartiene.
 		 */
-		for (Area xlsArea : xlsAreaList) {
+		for (Area xlsArea : xlsAreaList)
 			xlsArea.applyAt(xlsArea.getStartCellRef(), context);
-		}
 		
 		// Corrispettivo di JxlsHelper.getInstance().processGridTemplate() ?
 		transformer.write();

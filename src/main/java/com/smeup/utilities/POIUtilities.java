@@ -26,7 +26,7 @@ import org.jxls.common.AreaRef;
 import org.jxls.common.CellRef;
 import org.jxls.common.Context;
 
-import com.smeup.test.SimpleGridObject;
+import com.smeup.test.ExtendedUIGridXmlObject;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridRow;
@@ -308,15 +308,15 @@ public class POIUtilities {
 	 * SimpleGridObject) di ciascun file.
 	 * 
 	 * @param context - Il Context in cui inserire gli UIGridXmlObject.
-	 * @param s       - Il foglio in cui cercare le FUN.
+	 * @param sheet - Il foglio in cui cercare le FUN.
 	 * @return il context con gli UIGridXmlObject inseriti.
 	 */
-	public static Context cercaFun(Context context, Sheet s) {
+	public static Context cercaFun(Context context, Sheet sheet) {
 		// Sheet s = wb.getSheet("FUN");
 		int funC = 0; // Contatore di Fun
 		int rowC = 0; // Contatore di righe dell'UIGridXmlObject
 		int colC = 0; // Contatore di colonne dell'UIGridXmlObject
-		for (Row r : s) {
+		for (Row r : sheet) {
 			for (Cell c : r) {
 				if (c.getCellType().equals(CellType.STRING)) {
 					String value = c.getStringCellValue();
@@ -327,21 +327,25 @@ public class POIUtilities {
 							rowC = 0;
 							colC = 0;
 							funC++;
-							SimpleGridObject uxo = new SimpleGridObject(
+							ExtendedUIGridXmlObject exo = new ExtendedUIGridXmlObject(
 									UIXmlUtilities.buildDocumentFromXmlFile(value, "UTF-8"));
 							String title = "f";
 							title += funC < 10 ? "0" + funC : "" + funC;
-							context.putVar(title, uxo);
+							context.putVar(title, exo);
 							System.out.println("Inserito " + title);
-							for (UIGridRow ur : uxo.getRows()) {
+
+							// Riempie il context di UIGridRow
+							for (UIGridRow ur : exo.getRows()) {
 								rowC++;
 								String rowTitle = rowC < 10 ? "_row0" + rowC : "_row" + rowC;
 								context.putVar(title + rowTitle, ur);
 							}
-							for (UIGridColumn uc : uxo.getColumns()) {
+							
+							// Riempie il context con la lista dei valori di ciascun UIGridColumn
+							for (UIGridColumn uc : exo.getColumns()) {
 								colC++;
 								String colTitle = colC < 10 ? "_col0" + colC : "_col" + colC;
-								context.putVar(title + colTitle, uxo.getFormattedColumnValuesJXLS(uc.getCod()));
+								context.putVar(title + colTitle, exo.getFormattedColumnValuesJXLS(uc.getCod()));
 							}
 						}
 					} else {
