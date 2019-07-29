@@ -25,7 +25,6 @@ import org.jxls.util.JxlsHelper;
 
 import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
-import Smeup.smeui.uiutilities.UIFunctionDecoder;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 /*
@@ -44,7 +43,7 @@ public class ExportToExcel {
 		File[] list = dir.listFiles();
 		File file = dir.listFiles()[0]; // Momentaneamente viene inizializzato come il primo elemento di dir
 		for (File def : list)
-			if (def.getName().contains(".xml")) {
+			if (def.isFile() && def.getName().endsWith(".xml")) {
 				file = def;
 				exists = true;
 				break;
@@ -53,7 +52,6 @@ public class ExportToExcel {
 			System.out.println("Nessun file con estensione .xml trovato");
 			return;
 		}
-		OutputStream out = new FileOutputStream("src/main/resources/excel/export/export_input.xlsx");
 		UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(file, "UTF-8"));
 
 		Workbook wb = new XSSFWorkbook();
@@ -69,22 +67,14 @@ public class ExportToExcel {
 		c.setCellValue("Area");
 		// Alla prima cella del primo foglio viene impostato il valore "Area".
 		// Serve questa fase?
-		
-		wb.write(out);
-		out.close();
 		// Fine fase input, viene creato il file "export_input.xlsx"
-
-		InputStream in = new FileInputStream("src/main/resources/excel/export/export_input.xlsx");
 		OutputStream os = new FileOutputStream("src/main/resources/excel/export/export_temp.xlsx");
 		Context context = new Context();
-		int col = 1; // Numero della colonna
+		int col = 0; // Numero della colonna
 		for (UIGridColumn uc : u.getColumns()) {
-			List<Object> sub = new ArrayList<>();
-			sub.add(uc.getTxt());
-			sub.addAll(Arrays.asList(u.getFormattedColumnValues(uc.getCod())));
-			System.out.println("Aggiungo la colonna " + col);
-			context.putVar("u1_col" + col, sub);
 			col++;
+			System.out.println("Aggiungo la colonna " + col);
+			context.putVar("u1_col" + col, Arrays.asList(u.getFormattedColumnValues(uc.getCod())));
 		}
 
 		CellAddress last = new CellAddress(0, 0);
@@ -122,7 +112,7 @@ public class ExportToExcel {
 
 		wb.write(os);
 		wb.close();
-		in.close();
+		//in.close();
 		os.close();
 		// Fine seconda fase, viene creato "export_temp.xlsx" contenente i comandi Jxls
 		// con le note

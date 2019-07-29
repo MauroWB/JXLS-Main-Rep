@@ -45,7 +45,7 @@ public class UseCustomCommand {
 		Context context = new Context();
 		context = POIUtilities.cercaFun(context, wb.getSheet("FUN"));
 		context.putVar("x", 5);
-		context.putVar("sgo_test", sgo.getFormattedValueForCellJXLS(0, sgo.getColumnByIndex(0).getCod()));
+		context.putVar("sgo_test", sgo.getFormattedValueForCell(0, sgo.getColumnByIndex(0).getCod()));
 		
 		/*
 		 * Se si aggiungono dei comandi custom, occorre applicare manualmente ciascuna XlsArea a cella e foglio
