@@ -16,15 +16,14 @@ import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
-import Smeup.smec_s.businnesObj.tipi.Tipo;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
@@ -60,14 +59,8 @@ public class ExportToExcel {
 		CreationHelper factory = wb.getCreationHelper();
 		Sheet sheet = wb.createSheet("Template");
 		Drawing drawing = sheet.createDrawingPatriarch();
-		sheet.createRow(0).createCell(0).setCellValue("Esportazione Matrice");
 		Row r = sheet.createRow(2);
-		Row r1 = sheet.createRow(3);
-		//TODO: Inserire alla prima riga le intestazioni delle colonne con la tripletta in Telegram
-		
-		// Alla prima cella del primo foglio viene impostato il valore "Area".
-		// Serve questa fase?
-		// Fine fase input, viene creato il file "export_input.xlsx"
+	
 		OutputStream os = new FileOutputStream("src/main/resources/excel/export/export_temp.xlsx");
 		Context context = new Context();
 		int col = 0; // Numero della colonna
@@ -93,11 +86,11 @@ public class ExportToExcel {
 		for (int i = 0; i < u.getColumnsCount(); i++) {
 			if (sheet.getRow(i) == null)
 				sheet.createRow(i);
-			Cell m = r1.getCell(i, MissingCellPolicy.CREATE_NULL_AS_BLANK);
+			Cell m = r.getCell(i, MissingCellPolicy.CREATE_NULL_AS_BLANK);
 			
 			// Al primo posto inserisce le intestazioni
 			if (i==0) {
-				Cell cm = r.getCell(0, MissingCellPolicy.CREATE_NULL_AS_BLANK);
+				Cell cm = sheet.createRow(1).getCell(0, MissingCellPolicy.CREATE_NULL_AS_BLANK);
 				cm.setCellValue("${header}");
 				ClientAnchor anchor = factory.createClientAnchor();
 				Comment comment = drawing.createCellComment(anchor);
@@ -130,10 +123,14 @@ public class ExportToExcel {
 			}
 		}
 		// Definizione XLS Area
-		Cell ori = sheet.getRow(0).getCell(0);
+		Cell ori = sheet.createRow(0).createCell(0);
 		ClientAnchor anchor = factory.createClientAnchor();
 		Comment comment = drawing.createCellComment(anchor);
+		Comment temp = ori.getCellComment();
+		ori.removeCellComment();
+		
 		comment.setString(factory.createRichTextString("jx:area(lastCell='" + last + "')"));
+		System.out.println(temp.getString().getString());
 		ori.setCellComment(comment);
 
 		wb.write(os);
