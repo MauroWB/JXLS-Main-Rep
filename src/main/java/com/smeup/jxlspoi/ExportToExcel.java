@@ -6,7 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.ClientAnchor;
@@ -16,11 +18,13 @@ import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
+import Smeup.smec_s.businnesObj.tipi.Tipo;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
@@ -56,13 +60,11 @@ public class ExportToExcel {
 		CreationHelper factory = wb.getCreationHelper();
 		Sheet sheet = wb.createSheet("Template");
 		Drawing drawing = sheet.createDrawingPatriarch();
-		sheet.createRow(0);
-		sheet.createRow(2);
-		Row r = sheet.getRow(0);
-		Row r1 = sheet.getRow(2);
-		r.createCell(0);
-		Cell c = r.getCell(0);
-		c.setCellValue("Area");
+		sheet.createRow(0).createCell(0).setCellValue("Esportazione Matrice");
+		Row r = sheet.createRow(2);
+		Row r1 = sheet.createRow(3);
+		//TODO: Inserire alla prima riga le intestazioni delle colonne con la tripletta in Telegram
+		
 		// Alla prima cella del primo foglio viene impostato il valore "Area".
 		// Serve questa fase?
 		// Fine fase input, viene creato il file "export_input.xlsx"
@@ -70,6 +72,17 @@ public class ExportToExcel {
 		Context context = new Context();
 		int col = 0; // Numero della colonna
 		for (UIGridColumn uc : u.getColumns()) {
+			// Al primo posto mette la lista delle intestazioni
+			if (col==0) {
+				String header="";
+				List<String> headers = new ArrayList<>();
+				for (int i = 0; i < u.getColumnsCount(); i++) {
+					UIGridColumn ucH = u.getColumnByIndex(i);
+					header = ucH.getTxt()+"("+ucH.getCod()+"|"+ucH.getOgg()+"|"+ucH.getLun()+")";
+					headers.add(header);
+				}
+				context.putVar("headers", headers);
+			}
 			col++;
 			System.out.println("Aggiungo la colonna " + col);
 			context.putVar("u1_col" + col, Arrays.asList(u.getFormattedColumnValues(uc.getCod())));
@@ -78,14 +91,29 @@ public class ExportToExcel {
 		CellAddress last = new CellAddress(0, 0);
 
 		for (int i = 0; i < u.getColumnsCount(); i++) {
-			r1.createCell(i);
-			Cell m = r1.getCell(i);
-			m.setCellValue("${u1_col" + (i + 1) + "}");
-
+			if (sheet.getRow(i) == null)
+				sheet.createRow(i);
+			Cell m = r1.getCell(i, MissingCellPolicy.CREATE_NULL_AS_BLANK);
+			
+			// Al primo posto inserisce le intestazioni
+			if (i==0) {
+				Cell cm = r.getCell(0, MissingCellPolicy.CREATE_NULL_AS_BLANK);
+				cm.setCellValue("${header}");
+				ClientAnchor anchor = factory.createClientAnchor();
+				Comment comment = drawing.createCellComment(anchor);
+				comment.setString(factory.createRichTextString("jx:each(lastCell='" + cm.getAddress() 
+				+ "' items='headers' var='header' direction='RIGHT')"));
+				comment.setAuthor("Me");
+				cm.setCellComment(comment);
+				System.out.println("Commento applicato.");
+			}
+			
+			m.setCellValue("${obj}");
+			
 			ClientAnchor anchor = factory.createClientAnchor();
 			Comment comment = drawing.createCellComment(anchor);
 			comment.setString(factory.createRichTextString("jx:each(lastCell='" + m.getAddress() + "' items='u1_col"
-					+ (i + 1) + "' var='u1_col" + (i + 1) + "' direction='DOWN')"));
+					+ (i+1) + "' var='obj' direction='DOWN')"));
 			comment.setAuthor("Me");
 
 			m.setCellComment(comment);

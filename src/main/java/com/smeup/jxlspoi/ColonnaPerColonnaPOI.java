@@ -68,13 +68,10 @@ public class ColonnaPerColonnaPOI {
 		OutputStream wout = new FileOutputStream("src/main/resources/excel/cpcauto_output.xlsx");
 		Workbook workbook = new XSSFWorkbook(win);
 		Sheet sheet = workbook.getSheetAt(0);
-		Iterator<Row> iRow = sheet.rowIterator();
-		while (iRow.hasNext()) {
-			Row nextRow = iRow.next();
-			Iterator<Cell> iCell = nextRow.cellIterator();
-			while (iCell.hasNext()) {
-				Cell cell = iCell.next();
-				sheet.autoSizeColumn(cell.getColumnIndex());
+		for (Row r : sheet) {
+			for (Cell c : r)
+			{
+				sheet.autoSizeColumn(c.getColumnIndex());
 			}
 		}
 		workbook.write(wout);

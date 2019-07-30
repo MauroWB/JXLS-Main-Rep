@@ -82,7 +82,7 @@ public class TicketsToExcel {
 		context.putVar(nameVar, master);
 		return context;
 	}
-
+	
 	public static void main(String[] args) throws IOException, ParseException {
 
 		final InputStream in = new FileInputStream("src/main/resources/ticket/excel/ticket_template.xlsx");
