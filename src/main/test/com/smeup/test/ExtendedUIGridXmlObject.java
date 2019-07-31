@@ -15,7 +15,6 @@ import Smeup.smec_s.utility.SmeupUtility;
 import Smeup.smec_s.utility.StringUtility;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
-import Smeup.smeui.uimainmodule.MainApplication;
 import Smeup.smeui.uimainmodule.MainGuiFrame;
 import Smeup.smeui.uimainmodule.variables.UIVariableManager;
 

@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,23 +37,32 @@ import Smeup.smeui.uiutilities.UIXmlUtilities;
 
 public class ColonnaPerColonnaPOI {
 
-	// Mette nel context la grid e ciascuna colonna di cui è composta
-	public static void fillContext(Context context, ExtendedUIGridXmlObject s) {
-		for (int i = 0; i < s.getColumnsCount(); i++) {
+	/**
+	 *  Mette nel context la grid e ciascuna colonna di cui è composta.
+	 * @param context
+	 * @param e
+	 */
+	public static void fillContext(Context context, ExtendedUIGridXmlObject e) {
+		for (int i = 0; i < e.getColumnsCount(); i++) {
 			List<Object> obj = new ArrayList<>();
-			obj = Arrays.asList(s.getFormattedColumnValues(s.getColumnByIndex(i).getCod()));
-			System.out.println("Aggiungo la colonna numero " + (i + 1) + " della grid " + s.getName() + "...");
-			context.putVar(s.getName() + "_col" + (i + 1), obj);
+			obj = Arrays.asList(e.getFormattedColumnValues(e.getColumnByIndex(i).getCod()));
+			System.out.println("Aggiungo la colonna numero " + (i + 1) + " della grid " + e.getName() + "...");
+			context.putVar(e.getName() + "_col" + (i + 1), obj);
 			// qualcosa tipo "s_col1", "s1_col1"
 		}
-		context.putVar(s.getName(), s.getTable());
-		context.putVar("uxo_" + s.getName(), s); // uxo inteso come UIGridXmlObject
+		context.putVar(e.getName(), e.getTable());
+		context.putVar("uxo_" + e.getName(), e); // uxo inteso come UIGridXmlObject
 		// Devo per forza mettere la lista di colonne come un Array, in quanto dentro
 		// jxls non posso convertirlo
-		context.putVar(s.getName() + "_columns", Arrays.asList(s.getColumns()));
+		context.putVar(e.getName() + "_columns", Arrays.asList(e.getColumns()));
 		System.out.println("--Context riempito--\n");
 	}
 
+	
+	/**
+	 * Ridimensiona le colonne del workbook.
+	 * @throws IOException
+	 */
 	public static void autoColumnWidth() throws IOException {
 		System.out.println("Auto formattare colonne? (Y/N)");
 		Scanner in = new Scanner(System.in);
@@ -85,24 +93,24 @@ public class ColonnaPerColonnaPOI {
 		long start = System.currentTimeMillis();
 
 		// Creazione tabella
-		ExtendedUIGridXmlObject s = new ExtendedUIGridXmlObject(
+		ExtendedUIGridXmlObject e = new ExtendedUIGridXmlObject(
 				(UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup.xml", "UTF-8")));
-		s.setName("s");
-		ExtendedUIGridXmlObject s1 = new ExtendedUIGridXmlObject(
+		e.setName("e");
+		ExtendedUIGridXmlObject e1 = new ExtendedUIGridXmlObject(
 				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/example.xml", "UTF-8"));
-		s1.setName("s1");
-		ExtendedUIGridXmlObject s2 = new ExtendedUIGridXmlObject(
+		e1.setName("e1");
+		ExtendedUIGridXmlObject e2 = new ExtendedUIGridXmlObject(
 				UIXmlUtilities.buildDocumentFromXmlFile("src/main/resources/xml/fromloocup2.xml", "UTF-8"));
-		s2.setName("s2");
+		e2.setName("e2");
 
 		// Elaborazione template
 		System.out.println("Procedo all'elaborazione del foglio Excel...");
 		InputStream in = new FileInputStream("src/main/resources/excel/cpc_template.xlsx");
 		OutputStream out = new FileOutputStream("src/main/resources/excel/cpc_output.xlsx");
 		Context context = new Context();
-		fillContext(context, s);
-		fillContext(context, s1);
-		fillContext(context, s2);
+		fillContext(context, e);
+		fillContext(context, e1);
+		fillContext(context, e2);
 
 		JxlsHelper.getInstance().processTemplate(in, out, context);
 		in.close();
