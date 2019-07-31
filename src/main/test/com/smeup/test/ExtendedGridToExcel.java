@@ -23,7 +23,7 @@ public class ExtendedGridToExcel {
 		Document d = UIXmlUtilities
 				.buildDocumentFromXmlFile("D:/Java/Workspace/ExcelFromXMLObject/src/main/resources/xml/fromloocup.xml", "UTF-8");
 		System.out.println("Documento letto");
-		SimpleGridObject sgo = new SimpleGridObject(d);
+		ExtendedUIGridXmlObject sgo = new ExtendedUIGridXmlObject(d);
 
 		// Elaborazione template
 		System.out.println("Procedo all'elaborazione del foglio Excel...");

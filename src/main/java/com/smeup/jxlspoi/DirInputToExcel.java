@@ -22,7 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 
-import com.smeup.test.SimpleGridObject;
+import com.smeup.test.ExtendedUIGridXmlObject;
 
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
@@ -82,7 +82,7 @@ public class DirInputToExcel {
 		// contatore per dare un nome a ciascuna variabile tipo "s1"
 		int cont = 1;
 		for (File f : dir.listFiles()) {
-			SimpleGridObject s = new SimpleGridObject(UIXmlUtilities.buildDocumentFromXmlFile(f, "UTF-8"));
+			ExtendedUIGridXmlObject s = new ExtendedUIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(f, "UTF-8"));
 			s.setName("s" + cont);
 			System.out.println(s.getName());
 			// mette le colonne

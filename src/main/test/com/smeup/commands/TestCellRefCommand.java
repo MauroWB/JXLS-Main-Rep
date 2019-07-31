@@ -30,7 +30,6 @@ public class TestCellRefCommand extends AbstractCommand {
 		PoiTransformer transformer = (PoiTransformer) area.getTransformer();
 		Workbook wb = transformer.getWorkbook();
 		Sheet s = wb.getSheet(cellRef.getSheetName());
-		
 		final int endRow = cellRef.getRow() + resultSize.getHeight()-1;
 		final int endCol = cellRef.getCol() + resultSize.getWidth()-1;
 		

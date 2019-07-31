@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
@@ -27,116 +28,176 @@ import Smeup.smeui.uidatastructure.uigridxml.UIGridColumn;
 import Smeup.smeui.uidatastructure.uigridxml.UIGridXmlObject;
 import Smeup.smeui.uiutilities.UIXmlUtilities;
 
-/*
- * Prende un file Xml e lo esporta su Excel automaticamente,
- * senza che l'utente debba creare alcun file template
- */
+public class ExportToExcel 
+{
 
-// Tenere la scansione di tutta la directory?
-public class ExportToExcel {
-
-	@SuppressWarnings("rawtypes")
-	public static void main(String[] args) throws IOException {
+	/**
+	 * Genera un UIGridXmlObject dal primo file con estensione .xml trovato nella
+	 * directory xmltest.
+	 * 
+	 * @return null se non esiste alcun file .xml, altrimenti l'UIGridXmlObject.
+	 */
+	public static UIGridXmlObject getUxoFromFile() 
+	{
 		File dir = new File("src/main/resources/xml/xmltest");
-		boolean exists = false;
 		// Prende il primo file con estensione .xml
-		File[] list = dir.listFiles();
-		File file = dir.listFiles()[0]; // Momentaneamente viene inizializzato come il primo elemento di dir
-		for (File def : list)
-			if (def.getName().contains(".xml")) {
+		File file = null; // Momentaneamente viene inizializzato come il primo elemento di dir
+		for (File def : dir.listFiles())
+			if (def.isFile() && def.getName().endsWith(".xml")) 
+			{
 				file = def;
-				exists = true;
 				break;
 			}
-		if (exists == false) {
-			System.out.println("Nessun file con estensione .xml trovato");
-			return;
-		}
-		OutputStream out = new FileOutputStream("src/main/resources/excel/export/export_input.xlsx");
 		UIGridXmlObject u = new UIGridXmlObject(UIXmlUtilities.buildDocumentFromXmlFile(file, "UTF-8"));
+		return u;
+	}
 
-		Workbook wb = new XSSFWorkbook();
-		CreationHelper factory = wb.getCreationHelper();
-		Sheet sheet = wb.createSheet("Template");
-		Drawing drawing = sheet.createDrawingPatriarch();
-		sheet.createRow(0);
-		sheet.createRow(2);
-		Row r = sheet.getRow(0);
-		Row r1 = sheet.getRow(2);
-		r.createCell(0);
-		Cell c = r.getCell(0);
-		c.setCellValue("Area");
-		// Alla prima cella del primo foglio viene impostato il valore "Area".
-		// Serve questa fase?
-
-		wb.write(out);
-		out.close();
-		// Fine fase input, viene creato il file "export_input.xlsx"
-		
-		InputStream in = new FileInputStream("src/main/resources/excel/export/export_input.xlsx");
-		OutputStream os = new FileOutputStream("src/main/resources/excel/export/export_temp.xlsx");
-		Context context = new Context();
-		int col = 1; // Numero della colonna
-		for (UIGridColumn uc : u.getColumns()) {
-			List<Object> sub = new ArrayList<>();
-			sub.add(uc.getTxt());
-			sub.addAll(Arrays.asList(u.getFormattedColumnValues(uc.getCod())));
-			System.out.println("Aggiungo la colonna " + col);
-			context.putVar("u1_col" + col, sub);
-			col++;
+	/**
+	 * Inserisce alla prima riga del workbook le intestazioni di ciascuna colonna
+	 * del file .xml.
+	 * 
+	 * @param wb - Il workbook su cui agire.
+	 * @param u  - L'UIGridXmlObject del file .xml
+	 * @return il workbook modificato.
+	 */
+	public static Context generateHeaders(Context context, UIGridXmlObject u) 
+	{
+		List<String> headers = new ArrayList<>();
+		for (UIGridColumn uc : u.getColumns()) 
+		{
+			String header = uc.getTxt() + "(" + uc.getCod() + "|" + uc.getOgg() + "|" + uc.getLun() + ")";
+			headers.add(header);
 		}
-		
-		CellAddress last = new CellAddress(0,0);
+		context.putVar("headers", headers);
+		return context;
+	}
 
-		for (int i = 0; i < u.getColumnsCount(); i++) {
-			r1.createCell(i);
-			Cell m = r1.getCell(i);
-			m.setCellValue("${u1_col" + (i + 1) + "}");
+	/**
+	 * Inserisce nel context i valori formattati di ciascuna colonna
+	 * dell'UIGridXmlObject fornito.
+	 * 
+	 * @param context - Il context su cui agire.
+	 * @param u       - L'UIGridXmlObject di cui si vogliono ricavare i dati.
+	 * @return il context riempito.
+	 */
+	public static Context fillContext(Context context, UIGridXmlObject u) 
+	{
+		context = generateHeaders(context, u);
+		int cont = 0;
+		for (UIGridColumn uc : u.getColumns()) 
+		{
+			cont++;
+			context.putVar("col" + cont, Arrays.asList(u.getFormattedColumnValues(uc.getCod())));
+		}
+		return context;
+	}
 
+	/**
+	 * Scrive un workbook di template.
+	 * 
+	 * @param context - il context che verrà successivamente elaborato da Jxls.
+	 * @return il context riempito.
+	 * @throws IOException nel caso in cui non si possa accedere al path della
+	 *                     destinazione.
+	 */
+	public static Context execute(Context context) throws IOException {
+		UIGridXmlObject u = getUxoFromFile();
+		if (u == null)
+			return null;
+
+		final OutputStream out = new FileOutputStream("src/main/resources/excel/export/export_temp.xlsx");
+		context = fillContext(context, u);
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet();
+		CreationHelper factory = workbook.getCreationHelper();
+		Drawing<?> drawing = sheet.createDrawingPatriarch();
+		Row row = sheet.createRow(2);
+		CellAddress last = new CellAddress(0, 0);
+
+		// Le intestazioni vengono fatte a parte, in quanto sono più una riga che altro
+		Cell headers = sheet.createRow(1).createCell(0);
+		headers.setCellValue("${header}");
+		System.out.println(headers.getAddress());
+		Comment commentHeaders = drawing.createCellComment(factory.createClientAnchor());
+		commentHeaders.setString(factory.createRichTextString(
+				"jx:each(lastCell='" + headers.getAddress() + "' items='headers' var='header' direction='RIGHT')"));
+		headers.setCellComment(commentHeaders);
+
+		for (int i = 0; i < u.getColumnsCount(); i++) 
+		{
+			Cell c = row.createCell(i);
+			c.setCellValue("${obj}");
 			ClientAnchor anchor = factory.createClientAnchor();
+			anchor.setRow1(c.getRowIndex() + 1);
+			anchor.setRow2(c.getRowIndex() + 3);
+			anchor.setCol1(c.getColumnIndex() + 1);
+			anchor.setCol2(c.getColumnIndex() + 3);
 			Comment comment = drawing.createCellComment(anchor);
-			comment.setString(factory.createRichTextString("jx:each(lastCell='" + m.getAddress() 
-				+ "' items='u1_col" + (i + 1) 
-				+ "' var='u1_col" + (i + 1) 
-				+ "' direction='DOWN')"));
-			comment.setAuthor("Me");
+			comment.setString(factory.createRichTextString("jx:each(lastCell='" + c.getAddress() + "' items='col"
+					+ (i + 1) + "' var='obj' direction='DOWN')"));
+			c.setCellComment(comment);
+			System.out.println(comment);
 
-			m.setCellComment(comment);
-			System.out.println("Commento applicato.");
-			
-			if (last.getRow() < m.getRowIndex()) {
+			if (last.getRow() < c.getRowIndex()) 
+			{
 				int temp = last.getColumn();
-				// Purtroppo non si possono settare singolarmente Row e Column
-				last = new CellAddress(m.getRowIndex(), temp);
+				last = new CellAddress(c.getRowIndex(), temp);
 			}
-			if (last.getColumn() < m.getColumnIndex()) {
+			if (last.getColumn() < c.getColumnIndex()) 
+			{
 				int temp = last.getRow();
-				last = new CellAddress(temp, m.getColumnIndex());
+				last = new CellAddress(temp, c.getColumnIndex());
 			}
 		}
-		// Definizione XLS Area
-		Cell ori = sheet.getRow(0).getCell(0);
+
 		ClientAnchor anchor = factory.createClientAnchor();
 		Comment comment = drawing.createCellComment(anchor);
 		comment.setString(factory.createRichTextString("jx:area(lastCell='" + last + "')"));
-		ori.setCellComment(comment);
+		sheet.createRow(0).createCell(0).setCellComment(comment);
 
-		wb.write(os);
-		wb.close();
+		workbook.write(out);
+		workbook.close();
+		return context;
+	}
+
+	/**
+	 * Fa il ridimensionamento automatico delle colonne. Scrive nello stesso file.
+	 * 
+	 * @throws IOException
+	 */
+	public static void autoSize() throws IOException 
+	{
+		final InputStream in = new FileInputStream("src/main/resources/excel/export/export_output.xlsx");
+		Workbook workbook = WorkbookFactory.create(in);
 		in.close();
-		os.close();
-		// Fine seconda fase, viene creato "export_temp.xlsx" contenente i comandi Jxls
-		// con le note
+		final OutputStream out = new FileOutputStream("src/main/resources/excel/export/export_output.xlsx");
+		for (Sheet s : workbook)
+			for (Row r : s)
+				for (Cell c : r)
+					s.autoSizeColumn(c.getColumnIndex());
+		workbook.write(out);
+		out.close();
+		workbook.close();
+	}
 
-		// Elaborazione JXLS
+	public static void main(String[] args) throws IOException {
+
+		Context context = new Context();
+		try {
+			context = execute(context);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
 		System.out.println("Inizio elaborazione jxls...");
 		InputStream inTemp = new FileInputStream("src/main/resources/excel/export/export_temp.xlsx");
 		OutputStream outF = new FileOutputStream("src/main/resources/excel/export/export_output.xlsx");
 		JxlsHelper.getInstance().processTemplate(inTemp, outF, context);
 		inTemp.close();
 		outF.close();
+		autoSize();
 		System.out.println("Fine elaborazione.");
-		// Fine ultima fase, viene creato "export_output.xlsx", che è il file finale
 	}
 
 }
