@@ -147,7 +147,7 @@ public class BetterExport {
 		XSSFRichTextString richTextString = (XSSFRichTextString) factory.createRichTextString
 				("jx:area(lastCell='" + last + "')"
 				+ "\n" 
-				+"jx:each(lastCell="+origin.getAddress()+" items='headers' var='header' direction='RIGHT'");
+				+"jx:each(lastCell="+origin.getAddress()+" items='headers' var='header' direction='RIGHT')");
 		comment.setString(richTextString);
 		origin.setCellComment(comment);
 		

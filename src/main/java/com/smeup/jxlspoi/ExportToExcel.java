@@ -1,4 +1,4 @@
-package com.smeup.test;
+package com.smeup.jxlspoi;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -147,7 +147,7 @@ public class ExportToExcel {
 		XSSFRichTextString richTextString = (XSSFRichTextString) factory.createRichTextString
 				("jx:area(lastCell='" + last + "')"
 				+ "\n" 
-				+"jx:each(lastCell="+origin.getAddress()+" items='headers' var='header' direction='RIGHT'");
+				+"jx:each(lastCell="+origin.getAddress()+" items='headers' var='header' direction='RIGHT')");
 		comment.setString(richTextString);
 		origin.setCellComment(comment);
 		
