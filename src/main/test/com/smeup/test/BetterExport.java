@@ -144,8 +144,10 @@ public class BetterExport {
 		origin.setCellValue("${header}");
 		ClientAnchor anchor = factory.createClientAnchor();
 		Comment comment = drawing.createCellComment(anchor);
-		XSSFRichTextString richTextString = (XSSFRichTextString) factory.createRichTextString("jx:area(lastCell='" + last + "')");
-		richTextString.append("\njx:each(lastCell='A1' items='headers' var='header' direction='RIGHT')");
+		XSSFRichTextString richTextString = (XSSFRichTextString) factory.createRichTextString
+				("jx:area(lastCell='" + last + "')"
+				+ "\n" 
+				+"jx:each(lastCell="+origin.getAddress()+" items='headers' var='header' direction='RIGHT'");
 		comment.setString(richTextString);
 		origin.setCellComment(comment);
 		
