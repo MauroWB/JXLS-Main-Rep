@@ -1,4 +1,4 @@
-package com.smeup.jxlspoi;
+package com.smeup.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
@@ -132,6 +133,7 @@ public class BetterExport {
 			c.setCellComment(comment);
 			System.out.println(comment);
 			
+			
 			if (last.getRow() < c.getRowIndex()) 
 			{
 				int temp = last.getColumn();
@@ -142,6 +144,8 @@ public class BetterExport {
 				int temp = last.getRow();
 				last = new CellAddress(temp, c.getColumnIndex());
 			}
+			
+			
 		}
 		
 		ClientAnchor anchor = factory.createClientAnchor();
@@ -152,6 +156,24 @@ public class BetterExport {
 		workbook.write(out);
 		workbook.close();
 		return context;
+	}
+	
+	/**
+	 * Fa il ridimensionamento automatico delle colonne. Scrive nello stesso file.
+	 * @throws IOException
+	 */
+	public static void autoSize() throws IOException {
+		final InputStream in = new FileInputStream("src/main/resources/excel/export/export_output.xlsx");
+		Workbook workbook = WorkbookFactory.create(in);
+		in.close();
+		final OutputStream out = new FileOutputStream("src/main/resources/excel/export/export_output.xlsx");
+		for (Sheet s : workbook)
+			for (Row r : s)
+				for (Cell c : r)
+					s.autoSizeColumn(c.getColumnIndex());
+		workbook.write(out);
+		out.close();
+		workbook.close();
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -171,6 +193,7 @@ public class BetterExport {
 		JxlsHelper.getInstance().processTemplate(inTemp, outF, context);
 		inTemp.close();
 		outF.close();
+		autoSize();
 		System.out.println("Fine elaborazione.");
 	}
 
