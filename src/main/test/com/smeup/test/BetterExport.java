@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellAddress;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
@@ -105,17 +106,8 @@ public class BetterExport {
 		Sheet sheet = workbook.createSheet();
 		CreationHelper factory = workbook.getCreationHelper();
 		Drawing<?> drawing = sheet.createDrawingPatriarch();
-		Row row = sheet.createRow(2);
+		Row row = sheet.createRow(1);
 		CellAddress last = new CellAddress(0,0);
-		
-		// Le intestazioni vengono fatte a parte, in quanto sono più una riga che altro
-		Cell headers = sheet.createRow(1).createCell(0);
-		headers.setCellValue("${header}");
-		System.out.println(headers.getAddress());
-		Comment commentHeaders = drawing.createCellComment(factory.createClientAnchor());
-		commentHeaders.setString(factory.createRichTextString("jx:each(lastCell='"+headers.getAddress()
-		+"' items='headers' var='header' direction='RIGHT')"));
-		headers.setCellComment(commentHeaders);
 		
 		for (int i = 0; i < u.getColumnsCount(); i++) 
 		{
@@ -148,10 +140,14 @@ public class BetterExport {
 			
 		}
 		
+		Cell origin = sheet.createRow(0).createCell(0);
+		origin.setCellValue("${header}");
 		ClientAnchor anchor = factory.createClientAnchor();
 		Comment comment = drawing.createCellComment(anchor);
-		comment.setString(factory.createRichTextString("jx:area(lastCell='" + last + "')"));
-		sheet.createRow(0).createCell(0).setCellComment(comment);
+		XSSFRichTextString richTextString = (XSSFRichTextString) factory.createRichTextString("jx:area(lastCell='" + last + "')");
+		richTextString.append("\njx:each(lastCell='A1' items='headers' var='header' direction='RIGHT')");
+		comment.setString(richTextString);
+		origin.setCellComment(comment);
 		
 		workbook.write(out);
 		workbook.close();

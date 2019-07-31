@@ -101,6 +101,7 @@ public class ExportToExcel
 	 *                     destinazione.
 	 */
 	public static Context execute(Context context) throws IOException {
+		
 		UIGridXmlObject u = getUxoFromFile();
 		if (u == null)
 			return null;
@@ -128,12 +129,9 @@ public class ExportToExcel
 			Cell c = row.createCell(i);
 			c.setCellValue("${obj}");
 			ClientAnchor anchor = factory.createClientAnchor();
-			anchor.setRow1(c.getRowIndex() + 1);
-			anchor.setRow2(c.getRowIndex() + 3);
-			anchor.setCol1(c.getColumnIndex() + 1);
-			anchor.setCol2(c.getColumnIndex() + 3);
 			Comment comment = drawing.createCellComment(anchor);
-			comment.setString(factory.createRichTextString("jx:each(lastCell='" + c.getAddress() + "' items='col"
+			comment.setString(factory.createRichTextString
+					("jx:each(lastCell='" + c.getAddress() + "' items='col"
 					+ (i + 1) + "' var='obj' direction='DOWN')"));
 			c.setCellComment(comment);
 			System.out.println(comment);
@@ -150,12 +148,12 @@ public class ExportToExcel
 			}
 		}
 
-		ClientAnchor anchor = factory.createClientAnchor();
-		Comment comment = drawing.createCellComment(anchor);
+		Comment comment = drawing.createCellComment(factory.createClientAnchor());
 		comment.setString(factory.createRichTextString("jx:area(lastCell='" + last + "')"));
 		sheet.createRow(0).createCell(0).setCellComment(comment);
 
 		workbook.write(out);
+		out.close();
 		workbook.close();
 		return context;
 	}
