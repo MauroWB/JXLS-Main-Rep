@@ -88,7 +88,7 @@ public class SelectiveContext {
 										}
 									}
 									int numCol = Integer.parseInt(col.toString());
-									// Dentro numCol c'è, appunto, il numero della colonna
+									// numero della colonna
 
 									try {
 										System.out.println(

@@ -38,7 +38,6 @@ public class Entry {
 		//this.data = ideal.format(date);
 		this.data = ideal.parse(ideal.format(date)); // da togliere in caso
 		System.out.println(ur.getValueForColumnCode(SCADENZA)+ " | " +data);
-		
 	}
 	
 	public int getPercentuale() {
